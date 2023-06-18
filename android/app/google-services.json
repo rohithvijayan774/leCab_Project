@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "639984582590",
+    "project_id": "lecab-e72ac",
+    "storage_bucket": "lecab-e72ac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:639984582590:android:691c03a2824f9cd57383ef",
+        "android_client_info": {
+          "package_name": "com.example.lecab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "639984582590-h6lu6jgh0p991dfsb01oiasmdbsbt666.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXZXNZ0YFCa7ij25evag6ANNiUOAaewoo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "639984582590-h6lu6jgh0p991dfsb01oiasmdbsbt666.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
