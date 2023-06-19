@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lecab/Screens/User/user_number_validation.dart';
+import 'package:lecab/Views/User/user_number_validation.dart';
 
 class UserStartingPage extends StatelessWidget {
   const UserStartingPage({super.key});

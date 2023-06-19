@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:lecab/Screens/User/user_terms_privacy.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:lecab/widget/User/user_bottom_nav_bar.dart';
 
-class UserName extends StatelessWidget {
-  const UserName({super.key});
+class UserTermsAndPolicy extends StatelessWidget {
+  const UserTermsAndPolicy({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -10,39 +12,29 @@ class UserName extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.only(
-              top: 50,
-              left: 10,
-              right: 10,
-            ),
+            padding: const EdgeInsets.only(left: 10, right: 10, top: 50),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  "What's your name?",
-                  style: TextStyle(fontSize: 25),
+                  'Accept Terms & Privacy Notice',
+                  style: TextStyle(fontSize: 40),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 20,
+                ),
+                SizedBox(
+                  child: Image.asset('lib/assets/terms_conditions.png'),
+                ),
+                const SizedBox(
+                  height: 20,
                 ),
                 const Text(
-                  "Let us know how to address you",
-                  style: TextStyle(fontSize: 15),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(), hintText: 'Firstname'),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(), hintText: 'Surname'),
-                ),
+                  'By clicking next button, I have reviewed and agree to the Terms of Use and acknowledge the Privacy Notice.',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                  textAlign: TextAlign.center,
+                )
               ],
             ),
           ),
@@ -63,7 +55,7 @@ class UserName extends StatelessWidget {
               ),
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) =>const UserTermsAndPolicy(),
+                  builder: (context) => UserBottomNavBar(),
                 ));
               },
               child: Row(

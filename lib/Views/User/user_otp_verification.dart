@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lecab/Screens/User/user_name.dart';
+import 'package:lecab/Views/User/user_name.dart';
 import 'package:pinput/pinput.dart';
 
 class UserOTPVerification extends StatelessWidget {

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:lecab/Views/User/user_terms_privacy.dart';
 
-class UserTermsAndPolicy extends StatelessWidget {
-  const UserTermsAndPolicy({super.key});
+class UserName extends StatelessWidget {
+  const UserName({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,29 +10,39 @@ class UserTermsAndPolicy extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10, top: 50),
+            padding: const EdgeInsets.only(
+              top: 50,
+              left: 10,
+              right: 10,
+            ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Accept Terms & Privacy Notice',
-                  style: TextStyle(fontSize: 40),
+                  "What's your name?",
+                  style: TextStyle(fontSize: 25),
                 ),
                 const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  child: Image.asset('lib/assets/terms_conditions.png'),
-                ),
-                const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 const Text(
-                  'By clicking next button, I have reviewed and agree to the Terms of Use and acknowledge the Privacy Notice.',
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                  textAlign: TextAlign.center,
-                )
+                  "Let us know how to address you",
+                  style: TextStyle(fontSize: 15),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(), hintText: 'Firstname'),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(), hintText: 'Surname'),
+                ),
               ],
             ),
           ),
@@ -54,7 +63,7 @@ class UserTermsAndPolicy extends StatelessWidget {
               ),
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => UserTermsAndPolicy(),
+                  builder: (context) =>const UserTermsAndPolicy(),
                 ));
               },
               child: Row(

@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:lecab/Screens/User/user_starting_page.dart';
+import 'package:lecab/Views/User/user_starting_page.dart';
+import 'package:lecab/provider/bottom_nav_bar_provider.dart';
 import 'package:lecab/provider/number_validation.dart';
 import 'package:provider/provider.dart';
 
@@ -19,7 +20,10 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<NumberValidationProvider>(
           create: (context) => NumberValidationProvider(),
-        )
+        ),
+        ChangeNotifierProvider<UserBottomNavBarProvider>(
+          create: (context) => UserBottomNavBarProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
