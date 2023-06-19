@@ -58,6 +58,8 @@ flutter:
     - lib/assets/taxi_front_page.png
     - lib/assets/Road_bg.png
     - lib/assets/terms_conditions.png
+    - lib/assets/Map_home.png
+    - lib/assets/home_map.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

@@ -7,9 +7,9 @@ class UserBottomNavBarProvider extends ChangeNotifier {
   int currentIndex = 0;
 
   List<Widget> pages = [
-    UserHome(),
-    UserActivity(),
-    UserAccount(),
+    const UserHome(),
+    const UserActivity(),
+    const UserAccount(),
   ];
 
   updateIndex(int newIndex) {

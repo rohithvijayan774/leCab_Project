@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:lecab/widget/User/user_bottom_nav_bar.dart';
 
 class UserTermsAndPolicy extends StatelessWidget {
@@ -55,7 +53,7 @@ class UserTermsAndPolicy extends StatelessWidget {
               ),
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => UserBottomNavBar(),
+                  builder: (context) =>const UserBottomNavBar(),
                 ));
               },
               child: Row(

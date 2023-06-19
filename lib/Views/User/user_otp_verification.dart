@@ -7,16 +7,16 @@ class UserOTPVerification extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final defaultPinTheme = PinTheme(
-        width: 56,
-        height: 20,
-        textStyle: TextStyle(
-          fontSize: 50,
-          color: Colors.grey,
-        ),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.black),
-        ));
+    // final defaultPinTheme = PinTheme(
+    //     width: 56,
+    //     height: 20,
+    //     textStyle: TextStyle(
+    //       fontSize: 50,
+    //       color: Colors.grey,
+    //     ),
+    //     decoration: BoxDecoration(
+    //       border: Border.all(color: Colors.black),
+    //     ));
     return Scaffold(
       body: SafeArea(
           child: SingleChildScrollView(
@@ -61,7 +61,7 @@ class UserOTPVerification extends StatelessWidget {
               ),
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => UserName(),
+                  builder: (context) =>const UserName(),
                 ));
               },
               child: Row(
