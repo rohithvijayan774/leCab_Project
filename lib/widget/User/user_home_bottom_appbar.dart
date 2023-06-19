@@ -11,14 +11,22 @@ class UserHomeBottomAppBar extends StatelessWidget {
           // color: Colors.grey,
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10), topRight: Radius.circular(10))),
-      child: Column(
-        children: [
-          const SizedBox(
-            height: 30,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: SizedBox(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 30,
+            ),
+            const Text(
+              'Your Last Ride To,',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            SizedBox(
               width: double.infinity,
               height: 80,
               child: ElevatedButton.icon(
@@ -56,8 +64,43 @@ class UserHomeBottomAppBar extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-        ],
+            const SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              width: double.infinity,
+              height: 80,
+              child: ElevatedButton.icon(
+                style: ButtonStyle(
+                  shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15))),
+                  elevation: const MaterialStatePropertyAll(0),
+                  backgroundColor:
+                      MaterialStatePropertyAll(Colors.grey.shade200),
+                ),
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.local_taxi_rounded,
+                  color: Colors.black,
+                  size: 25,
+                ),
+                label: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      'Hire Cab',
+                      style: TextStyle(
+                          fontSize: 23,
+                          // fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

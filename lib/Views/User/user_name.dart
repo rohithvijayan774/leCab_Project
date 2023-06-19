@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:lecab/Views/User/user_terms_privacy.dart';
+import 'package:lecab/provider/User/user_details_provider.dart';
+import 'package:provider/provider.dart';
 
 class UserName extends StatelessWidget {
   const UserName({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final pro = Provider.of<UserDetailsProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -33,6 +36,8 @@ class UserName extends StatelessWidget {
                   height: 20,
                 ),
                 TextFormField(
+                  textCapitalization: TextCapitalization.words,
+                  controller: pro.userFirstNameController,
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(), hintText: 'Firstname'),
                 ),
@@ -40,6 +45,8 @@ class UserName extends StatelessWidget {
                   height: 20,
                 ),
                 TextFormField(
+                  textCapitalization: TextCapitalization.words,
+                  controller: pro.userSurNameController,
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(), hintText: 'Surname'),
                 ),
@@ -63,7 +70,7 @@ class UserName extends StatelessWidget {
               ),
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) =>const UserTermsAndPolicy(),
+                  builder: (context) => const UserTermsAndPolicy(),
                 ));
               },
               child: Row(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lecab/Views/User/user_otp_verification.dart';
-import 'package:lecab/provider/number_validation.dart';
+import 'package:lecab/provider/User/number_validation.dart';
 import 'package:provider/provider.dart';
 
 class UserNumberValidation extends StatelessWidget {

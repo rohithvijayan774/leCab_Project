@@ -1,8 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:lecab/Views/User/user_starting_page.dart';
-import 'package:lecab/provider/bottom_nav_bar_provider.dart';
-import 'package:lecab/provider/number_validation.dart';
+import 'package:lecab/provider/User/bottom_nav_bar_provider.dart';
+import 'package:lecab/provider/User/number_validation.dart';
+import 'package:lecab/provider/User/user_details_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -23,6 +24,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<UserBottomNavBarProvider>(
           create: (context) => UserBottomNavBarProvider(),
+        ),
+        ChangeNotifierProvider<UserDetailsProvider>(
+          create: (context) => UserDetailsProvider(),
         ),
       ],
       child: MaterialApp(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lecab/provider/bottom_nav_bar_provider.dart';
+import 'package:lecab/provider/User/bottom_nav_bar_provider.dart';
 import 'package:provider/provider.dart';
 
 class UserBottomNavBar extends StatelessWidget {
@@ -32,7 +32,7 @@ class UserBottomNavBar extends StatelessWidget {
               icon: Icon(
                 Icons.person,
               ),
-              label: 'Home'),
+              label: 'Account'),
         ],
       ),
     );
