@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lecab/Views/User/user_search.dart';
+import 'package:lecab/widget/User/home_search_button.dart';
 import 'package:lecab/widget/User/user_home_bottom_appbar.dart';
 
 class UserHome extends StatelessWidget {
@@ -9,6 +11,7 @@ class UserHome extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Stack(
+          alignment: Alignment.center,
           children: [
             Container(
               color: Colors.amber,
@@ -20,34 +23,17 @@ class UserHome extends StatelessWidget {
             ),
             Positioned(
                 child: Column(
-              children: [
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: const [
                 SizedBox(
                   height: 60,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white60,
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(50)),
-                        hintText: 'Search'),
-                  ),
-                ),
+                HomeSearchButton()
               ],
             ))
           ],
         ),
       ),
-      // body: ListView.builder(
-      //   itemBuilder: (context, index) {
-      //     return ListTile(
-      //       title: Text("Item ${index + 1}"),
-      //     );
-      //   },
-      //   itemCount: 100,
-      // ),
       bottomNavigationBar: const UserHomeBottomAppBar(),
     );
   }

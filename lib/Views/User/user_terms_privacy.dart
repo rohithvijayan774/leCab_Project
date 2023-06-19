@@ -52,9 +52,11 @@ class UserTermsAndPolicy extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) =>const UserBottomNavBar(),
-                ));
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (context) => UserBottomNavBar(),
+                    ),
+                    (route) => false);
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

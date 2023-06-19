@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:lecab/Views/User/user_name.dart';
+import 'package:lecab/provider/number_validation.dart';
 import 'package:pinput/pinput.dart';
+import 'package:provider/provider.dart';
 
 class UserOTPVerification extends StatelessWidget {
   const UserOTPVerification({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final pro = Provider.of<NumberValidationProvider>(context);
     // final defaultPinTheme = PinTheme(
     //     width: 56,
     //     height: 20,
@@ -24,16 +27,16 @@ class UserOTPVerification extends StatelessWidget {
           padding: const EdgeInsets.only(top: 30, left: 10, right: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
+            children: [
               Text(
-                "Enter the OTP send to the number 9876543210",
-                style: TextStyle(fontSize: 20),
+                "Enter the OTP send to the number ${pro.numberController.text}",
+                style: const TextStyle(fontSize: 20),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Pinput(
-                length: 4,
+              const Pinput(
+                length: 6,
                 showCursor: true,
               )
             ],
@@ -61,7 +64,7 @@ class UserOTPVerification extends StatelessWidget {
               ),
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) =>const UserName(),
+                  builder: (context) => const UserName(),
                 ));
               },
               child: Row(

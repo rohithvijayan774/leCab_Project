@@ -11,6 +11,54 @@ class UserHomeBottomAppBar extends StatelessWidget {
           // color: Colors.grey,
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10), topRight: Radius.circular(10))),
+      child: Column(
+        children: [
+          const SizedBox(
+            height: 30,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: SizedBox(
+              width: double.infinity,
+              height: 80,
+              child: ElevatedButton.icon(
+                style: ButtonStyle(
+                  shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15))),
+                  elevation: const MaterialStatePropertyAll(0),
+                  backgroundColor:
+                      MaterialStatePropertyAll(Colors.grey.shade200),
+                ),
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.location_on,
+                  color: Colors.black,
+                  size: 25,
+                ),
+                label: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      'HiLite Mall',
+                      style: TextStyle(
+                          fontSize: 23,
+                          // fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    ),
+                    Text(
+                      'G1003, NH 66, Kozhikode Bypass, Poovangal, Kozhikode',
+                      style: TextStyle(color: Colors.black45, fontSize: 15),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
