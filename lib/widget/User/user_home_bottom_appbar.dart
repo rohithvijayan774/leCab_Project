@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lecab/Views/User/user_search.dart';
 
 class UserHomeBottomAppBar extends StatelessWidget {
   const UserHomeBottomAppBar({super.key});
@@ -37,7 +38,13 @@ class UserHomeBottomAppBar extends StatelessWidget {
                   backgroundColor:
                       MaterialStatePropertyAll(Colors.grey.shade200),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const UserSearch(),
+                    ),
+                  );
+                },
                 icon: const Icon(
                   Icons.location_on,
                   color: Colors.black,

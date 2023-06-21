@@ -19,9 +19,9 @@ class HomeSearchButton extends StatelessWidget {
           },
           style: ButtonStyle(
               backgroundColor: MaterialStatePropertyAll(Colors.grey.shade200),
-              elevation: const MaterialStatePropertyAll(0)),
-          child: Row(
-            children: const [
+              elevation: const MaterialStatePropertyAll(2)),
+          child:const Row(
+            children:  [
               SizedBox(
                 width: 10,
               ),

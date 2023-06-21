@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:lecab/Views/User/user_choose_vehicle.dart';
+import 'package:lecab/provider/User/user_details_provider.dart';
+import 'package:provider/provider.dart';
 
 class UserSearch extends StatelessWidget {
   const UserSearch({super.key});
@@ -37,12 +38,16 @@ class UserSearch extends StatelessWidget {
                           TextFormField(
                             textCapitalization: TextCapitalization.words,
                             decoration: const InputDecoration(
-                                border: OutlineInputBorder(), hintText: 'From'),
+                                border: OutlineInputBorder(),
+                                hintText: 'Your current location'),
                           ),
                           const SizedBox(
                             height: 10,
                           ),
                           TextFormField(
+                            controller:
+                                Provider.of<UserDetailsProvider>(context)
+                                    .destinationController,
                             textCapitalization: TextCapitalization.words,
                             decoration: const InputDecoration(
                                 border: OutlineInputBorder(), hintText: 'To?'),
@@ -64,7 +69,37 @@ class UserSearch extends StatelessWidget {
                 child: ListView.builder(
                   itemCount: 50,
                   itemBuilder: (context, index) {
-                    return Text("data $index");
+                    return ListTile(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const UserChooseVehicle(),
+                          ),
+                        );
+                      },
+                      leading: const CircleAvatar(
+                        backgroundColor: Colors.transparent,
+                        child: Icon(
+                          Icons.location_on,
+                          color: Colors.black,
+                          size: 25,
+                        ),
+                      ),
+                      title: const Text(
+                        'Railwaystation 4th Platform Road',
+                        style: TextStyle(
+                            fontSize: 20,
+                            // fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                        // overflow: TextOverflow.ellipsis,
+                      ),
+                      subtitle: const Text(
+                        'Railwaystation 4th Platform Rd, Kuttichira, Kozhikode',
+                        style: TextStyle(color: Colors.black45, fontSize: 15),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    );
                   },
                 ),
               ),

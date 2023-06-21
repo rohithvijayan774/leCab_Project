@@ -4,6 +4,7 @@ import 'package:lecab/Views/User/user_starting_page.dart';
 import 'package:lecab/provider/User/bottom_nav_bar_provider.dart';
 import 'package:lecab/provider/User/number_validation.dart';
 import 'package:lecab/provider/User/user_details_provider.dart';
+import 'package:lecab/provider/User/user_googlemap_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -27,6 +28,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<UserDetailsProvider>(
           create: (context) => UserDetailsProvider(),
+        ),
+        ChangeNotifierProvider<UserGoogleMapProvider>(
+          create: (context) => UserGoogleMapProvider(),
         ),
       ],
       child: MaterialApp(

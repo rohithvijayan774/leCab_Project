@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lecab/Views/User/user_number_validation.dart';
+import 'package:lecab/widget/User/user_bottom_nav_bar.dart';
 
 class UserStartingPage extends StatelessWidget {
   const UserStartingPage({super.key});
@@ -48,8 +49,11 @@ class UserStartingPage extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
+                        // Navigator.of(context).push(MaterialPageRoute(
+                        //   builder: (context) =>const UserNumberValidation(),
+                        // ));
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>const UserNumberValidation(),
+                          builder: (context) => const UserBottomNavBar(),
                         ));
                       },
                       child: Row(

@@ -1,30 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:lecab/Views/User/user_search.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:lecab/provider/User/user_googlemap_provider.dart';
 import 'package:lecab/widget/User/home_search_button.dart';
 import 'package:lecab/widget/User/user_home_bottom_appbar.dart';
+import 'package:provider/provider.dart';
 
 class UserHome extends StatelessWidget {
   const UserHome({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final googleMapProvider =
+        Provider.of<UserGoogleMapProvider>(context, listen: false);
     return Scaffold(
       body: Center(
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Container(
-              color: Colors.amber,
-              height: double.infinity,
-              child: Image.asset(
-                'lib/assets/home_map.png',
-                height: 200,
-              ),
+            GoogleMap(
+              initialCameraPosition: googleMapProvider.yourLocation,
+              mapType: MapType.normal,
+              myLocationButtonEnabled: true,
+              onMapCreated: (controller) {
+                googleMapProvider.googleMapController.complete(controller);
+
+                // _newGoogleMapController = controller;
+              },
+              markers: {
+                const Marker(
+                  markerId: MarkerId('Your Loaction'),
+                  position: LatLng(11.249284377235318, 75.83412108356296),
+                )
+              },
             ),
-            Positioned(
+            const Positioned(
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: const [
+              children: [
                 SizedBox(
                   height: 60,
                 ),
