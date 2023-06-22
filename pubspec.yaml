@@ -36,6 +36,7 @@ dependencies:
     sdk: flutter
   geolocator: ^9.0.2
   google_maps_flutter: ^2.3.1
+  intl: ^0.18.1
   location: ^4.4.0
   pinput: ^2.2.31
   provider: ^6.0.5
@@ -67,6 +68,9 @@ flutter:
     - lib/assets/rickshaw3D.png
     - lib/assets/suv3D.png
     - lib/assets/profile.png
+    - lib/assets/cash_by_hand.png
+    - lib/assets/online_payment.png
+    - lib/assets/done.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

@@ -73,9 +73,9 @@ class UserName extends StatelessWidget {
                   builder: (context) => const UserTermsAndPolicy(),
                 ));
               },
-              child: Row(
+              child:const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: const [
+                children: [
                   Text(
                     "next",
                     style: TextStyle(fontSize: 25, color: Colors.white),

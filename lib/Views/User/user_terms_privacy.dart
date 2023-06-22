@@ -54,13 +54,13 @@ class UserTermsAndPolicy extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
-                      builder: (context) => UserBottomNavBar(),
+                      builder: (context) =>const UserBottomNavBar(),
                     ),
                     (route) => false);
               },
-              child: Row(
+              child:const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: const [
+                children: [
                   Text(
                     "next",
                     style: TextStyle(fontSize: 25, color: Colors.white),

@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
+import 'package:lecab/Views/User/user_payment_mode.dart';
 import 'package:lecab/provider/User/user_googlemap_provider.dart';
-import 'package:lecab/widget/User/Bottom%20Bar/user_select_vehicle_bottom.dart';
+import 'package:lecab/widget/User/Bottom%20Bar/user_journey_bottmapp.dart';
 import 'package:provider/provider.dart';
 
-class UserChooseVehicle extends StatelessWidget {
-  const UserChooseVehicle({super.key});
+class UserJourney extends StatelessWidget {
+  DateTime? dateTime;
+  UserJourney({this.dateTime, super.key});
 
   @override
   Widget build(BuildContext context) {
+    dateTime = DateTime.now();
+    Duration durationToAdd = Duration(minutes: 20);
+    DateTime timeTaking = dateTime!.add(durationToAdd);
+    String time = DateFormat('h:mm a').format(timeTaking).toLowerCase();
+
     final googleMapProvider = Provider.of<UserGoogleMapProvider>(context);
     return Scaffold(
       body: Center(
@@ -35,17 +43,21 @@ class UserChooseVehicle extends StatelessWidget {
             ),
             Positioned(
               top: 10,
-              left: 10,
+              right: 10,
               child: SafeArea(
                 child: Container(
-                  decoration:const BoxDecoration(
+                  decoration: const BoxDecoration(
                       shape: BoxShape.circle, color: Colors.black),
                   child: IconButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const UserPaymentMode(),
+                        ),
+                      );
                     },
                     icon: const Icon(
-                      Icons.arrow_back_ios_new_rounded,
+                      Icons.arrow_forward_ios_rounded,
                       color: Colors.white,
                     ),
                   ),
@@ -55,7 +67,11 @@ class UserChooseVehicle extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: const UserSelectVehicleBottomApp(),
+      bottomNavigationBar: UserJourneyBottomBar(
+          estReachTime: time,
+          distanceToDestn: 8.5,
+          timeToReach: 20,
+          destnName: 'Railwaystation 4th Platform Road'),
     );
   }
 }

@@ -11,7 +11,7 @@ class UserAccount extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Text(
-            '${userPro.userFirstNameController.text + userPro.userSurNameController.text}'),
+            userPro.userFirstNameController.text + userPro.userSurNameController.text),
       ),
     );
   }

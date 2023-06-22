@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lecab/Views/User/user_number_validation.dart';
+
 import 'package:lecab/widget/User/user_bottom_nav_bar.dart';
 
 class UserStartingPage extends StatelessWidget {

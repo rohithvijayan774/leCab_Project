@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lecab/Views/User/user_journey.dart';
 
+// ignore: must_be_immutable
 class UserDriverInfoBottomApp extends StatelessWidget {
   String driverPic;
   String driverName;
@@ -38,7 +40,7 @@ class UserDriverInfoBottomApp extends StatelessWidget {
                   style: const TextStyle(fontSize: 20),
                 ),
                 Image.asset(
-                  "$driverPic",
+                  driverPic,
                   scale: 6,
                 ),
               ],
@@ -67,7 +69,13 @@ class UserDriverInfoBottomApp extends StatelessWidget {
                         const Size(200, 50),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => UserJourney(),
+                        ),
+                      );
+                    },
                     child: const Text(
                       "Accept",
                       style: TextStyle(fontSize: 22, color: Colors.white),

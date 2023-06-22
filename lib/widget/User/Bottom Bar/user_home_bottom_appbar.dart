@@ -50,10 +50,10 @@ class UserHomeBottomAppBar extends StatelessWidget {
                   color: Colors.black,
                   size: 25,
                 ),
-                label: Column(
+                label: const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
                       'HiLite Mall',
                       style: TextStyle(
@@ -91,10 +91,10 @@ class UserHomeBottomAppBar extends StatelessWidget {
                   color: Colors.black,
                   size: 25,
                 ),
-                label: Column(
+                label: const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
                       'Hire Cab',
                       style: TextStyle(

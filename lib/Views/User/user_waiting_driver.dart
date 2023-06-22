@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lecab/Views/User/user_showing_driver_info.dart';
 import 'package:lecab/provider/User/user_googlemap_provider.dart';
-import 'package:lecab/widget/User/driver_waiting_bottombar.dart';
+import 'package:lecab/widget/User/Bottom%20Bar/driver_waiting_bottombar.dart';
 import 'package:provider/provider.dart';
 
 class UserWaitingDriver extends StatelessWidget {
@@ -31,6 +31,13 @@ class UserWaitingDriver extends StatelessWidget {
                   //     BitmapDescriptor.hueAzure),
                   markerId: MarkerId('Your Location'),
                   position: LatLng(11.249284377235318, 75.83412108356296),
+                ),
+                Marker(
+                  draggable: true,
+                  icon: BitmapDescriptor.defaultMarkerWithHue(
+                      BitmapDescriptor.hueYellow),
+                  markerId: MarkerId('Driver Location'),
+                  position: LatLng(11.249753973368229, 75.83456813073674),
                 )
               },
             ),

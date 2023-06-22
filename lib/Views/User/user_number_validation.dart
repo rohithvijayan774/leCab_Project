@@ -86,6 +86,7 @@ class UserNumberValidation extends StatelessWidget {
                       ),
                       onPressed: () async {
                         await proLF.sendOTP();
+                        // ignore: use_build_context_synchronously
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => const UserOTPVerification(),
                         ));
