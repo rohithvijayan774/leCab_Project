@@ -8,6 +8,7 @@ class NumberValidationProvider extends ChangeNotifier {
   TextEditingController numberController = TextEditingController();
   String? smsCode;
   String? verificationCode;
+  final numberFormKey = GlobalKey<FormState>();
 
   Future<void> sendOTP() async {
     await FirebaseAuth.instance.verifyPhoneNumber(
@@ -23,6 +24,11 @@ class NumberValidationProvider extends ChangeNotifier {
     );
     log("OTP Sent to ${countryCodeController.text + numberController.text}");
 
+    notifyListeners();
+  }
+
+  clearNumberField() {
+    numberController.clear();
     notifyListeners();
   }
 }

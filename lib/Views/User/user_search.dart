@@ -8,6 +8,12 @@ class UserSearch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> searchPlacesList = [
+      "HiLite Mall",
+      "Railwaystation 4th Platform Road",
+      "SM Street, Palayam, Kozhikode, Kerala",
+      "Cyberpark Kozhikode"
+    ];
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -15,11 +21,22 @@ class UserSearch extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(Icons.arrow_back_ios_new_rounded),
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  const Text(
+                    'Where to ?',
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  )
+                ],
               ),
               const SizedBox(
                 height: 20,
@@ -67,7 +84,7 @@ class UserSearch extends StatelessWidget {
               ),
               Expanded(
                 child: ListView.builder(
-                  itemCount: 50,
+                  itemCount: searchPlacesList.length,
                   itemBuilder: (context, index) {
                     return ListTile(
                       onTap: () {
@@ -85,9 +102,9 @@ class UserSearch extends StatelessWidget {
                           size: 25,
                         ),
                       ),
-                      title: const Text(
-                        'Railwaystation 4th Platform Road',
-                        style: TextStyle(
+                      title: Text(
+                        searchPlacesList[index],
+                        style: const TextStyle(
                             fontSize: 20,
                             // fontWeight: FontWeight.bold,
                             color: Colors.black),

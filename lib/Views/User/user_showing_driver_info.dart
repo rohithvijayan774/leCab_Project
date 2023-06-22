@@ -31,6 +31,12 @@ class UserDriverInfo extends StatelessWidget {
                   markerId: MarkerId('Your Location'),
                   position: LatLng(11.249284377235318, 75.83412108356296),
                 ),
+                Marker(
+                  icon: BitmapDescriptor.defaultMarkerWithHue(
+                      BitmapDescriptor.hueYellow),
+                  markerId: const MarkerId('Driver Location'),
+                  position: const LatLng(11.249294735940275, 75.83407884348500),
+                ),
               },
             ),
           ],

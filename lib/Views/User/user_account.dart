@@ -10,8 +10,9 @@ class UserAccount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userPro = Provider.of<UserDetailsProvider>(context);
-    final userNumberPro = Provider.of<NumberValidationProvider>(context);
+    final userNamePro = Provider.of<UserDetailsProvider>(context);
+    final userNumberPro =
+        Provider.of<NumberValidationProvider>(context, listen: false);
     final userBottomNavPro = Provider.of<UserBottomNavBarProvider>(context);
     return Scaffold(
       body: SafeArea(
@@ -24,7 +25,7 @@ class UserAccount extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    userPro.userFirstNameController.text,
+                    userNamePro.userFirstNameController.text,
                     style: const TextStyle(
                         fontSize: 30, fontWeight: FontWeight.bold),
                   ),
@@ -50,8 +51,8 @@ class UserAccount extends StatelessWidget {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               Text(
-                userPro.userFirstNameController.text +
-                    userPro.userSurNameController.text,
+                userNamePro.userFirstNameController.text +
+                    userNamePro.userSurNameController.text,
                 style:
                     const TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
               ),
@@ -110,6 +111,8 @@ class UserAccount extends StatelessWidget {
               TextButton(
                 onPressed: () {
                   userBottomNavPro.currentIndex = 0;
+                  userNumberPro.clearNumberField();
+                  userNamePro.clearNameFields();
                   Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
                           builder: (ctx1) => const UserStartingPage()),

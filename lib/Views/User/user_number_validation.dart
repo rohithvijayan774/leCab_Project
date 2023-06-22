@@ -13,92 +13,111 @@ class UserNumberValidation extends StatelessWidget {
     pro.countryCodeController.text = "+91";
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(
-                left: 10, right: 10, top: 250, bottom: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  "Enter your mobile number",
-                  style: TextStyle(
-                    fontSize: 20,
+        child: Form(
+          key: pro.numberFormKey,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  left: 10, right: 10, top: 250, bottom: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Enter your mobile number",
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  height: 50,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: Colors.grey),
+                  const SizedBox(
+                    height: 10,
                   ),
-                  child: Row(
-                    children: [
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      SizedBox(
-                        width: 40,
-                        child: TextFormField(
-                          controller: pro.countryCodeController,
-                          keyboardType: TextInputType.phone,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                          ),
+                  Container(
+                    height: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(color: Colors.grey),
+                    ),
+                    child: Row(
+                      children: [
+                        const SizedBox(
+                          width: 20,
                         ),
-                      ),
-                      const VerticalDivider(
-                        indent: 10,
-                        endIndent: 10,
-                      ),
-                      Expanded(
-                        child: SizedBox(
+                        SizedBox(
+                          width: 40,
                           child: TextFormField(
-                            controller: pro.numberController,
-                            // maxLength: 10,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return '* This field is required';
+                              } else {
+                                return null;
+                              }
+                            },
+                            controller: pro.countryCodeController,
                             keyboardType: TextInputType.phone,
                             decoration: const InputDecoration(
                               border: InputBorder.none,
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 60),
-                  child: Center(
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        overlayColor: MaterialStateProperty.all(Colors.grey),
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.black),
-                        minimumSize: MaterialStateProperty.all(
-                          const Size(200, 50),
+                        const VerticalDivider(
+                          indent: 10,
+                          endIndent: 10,
                         ),
-                      ),
-                      onPressed: () async {
-                        await proLF.sendOTP();
-                        // ignore: use_build_context_synchronously
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const UserOTPVerification(),
-                        ));
-                      },
-                      child: const Text(
-                        "Continue",
-                        style: TextStyle(fontSize: 22, color: Colors.white),
+                        Expanded(
+                          child: SizedBox(
+                            child: TextFormField(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return '* This field is required';
+                                } else {
+                                  return null;
+                                }
+                              },
+                              controller: pro.numberController,
+                              // maxLength: 10,
+                              keyboardType: TextInputType.phone,
+                              decoration: const InputDecoration(
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 60),
+                    child: Center(
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          overlayColor: MaterialStateProperty.all(Colors.grey),
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.black),
+                          minimumSize: MaterialStateProperty.all(
+                            const Size(200, 50),
+                          ),
+                        ),
+                        onPressed: () async {
+                          if (pro.numberFormKey.currentState!.validate()) {
+                            await proLF.sendOTP();
+                            // ignore: use_build_context_synchronously
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const UserOTPVerification(),
+                            ));
+                          }
+                        },
+                        child: const Text(
+                          "Continue",
+                          style: TextStyle(fontSize: 22, color: Colors.white),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

@@ -11,46 +11,63 @@ class UserName extends StatelessWidget {
     final pro = Provider.of<UserDetailsProvider>(context);
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(
-              top: 50,
-              left: 10,
-              right: 10,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  "What's your name?",
-                  style: TextStyle(fontSize: 25),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Text(
-                  "Let us know how to address you",
-                  style: TextStyle(fontSize: 15),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  textCapitalization: TextCapitalization.words,
-                  controller: pro.userFirstNameController,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(), hintText: 'Firstname'),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextFormField(
-                  textCapitalization: TextCapitalization.words,
-                  controller: pro.userSurNameController,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(), hintText: 'Surname'),
-                ),
-              ],
+        child: Form(
+          key: pro.userNameFormKey,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                top: 50,
+                left: 10,
+                right: 10,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "What's your name?",
+                    style: TextStyle(fontSize: 25),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    "Let us know how to address you",
+                    style: TextStyle(fontSize: 15),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return '* This field is Required';
+                      } else {
+                        return null;
+                      }
+                    },
+                    textCapitalization: TextCapitalization.words,
+                    controller: pro.userFirstNameController,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(), hintText: 'Firstname'),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return '* This field is Required';
+                      } else {
+                        return null;
+                      }
+                    },
+                    textCapitalization: TextCapitalization.words,
+                    controller: pro.userSurNameController,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(), hintText: 'Surname'),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -69,11 +86,15 @@ class UserName extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const UserTermsAndPolicy(),
-                ));
+                if (pro.userNameFormKey.currentState!.validate()) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const UserTermsAndPolicy(),
+                    ),
+                  );
+                }
               },
-              child:const Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(

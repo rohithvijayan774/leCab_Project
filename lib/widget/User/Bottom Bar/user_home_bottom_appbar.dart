@@ -85,7 +85,13 @@ class UserHomeBottomAppBar extends StatelessWidget {
                   backgroundColor:
                       MaterialStatePropertyAll(Colors.grey.shade200),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const UserSearch(),
+                    ),
+                  );
+                },
                 icon: const Icon(
                   Icons.local_taxi_rounded,
                   color: Colors.black,
