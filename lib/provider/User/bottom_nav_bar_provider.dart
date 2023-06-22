@@ -8,7 +8,7 @@ class UserBottomNavBarProvider extends ChangeNotifier {
 
   List<Widget> pages = [
     const UserHome(),
-    const UserActivity(),
+    UserActivity(),
     const UserAccount(),
   ];
 

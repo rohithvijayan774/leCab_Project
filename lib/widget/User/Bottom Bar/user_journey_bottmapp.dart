@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lecab/widget/dot_seperator.dart';
 
 // ignore: must_be_immutable
 class UserJourneyBottomBar extends StatelessWidget {
@@ -35,13 +36,13 @@ class UserJourneyBottomBar extends StatelessWidget {
               style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   '$distanceToDestn km',
                   style: TextStyle(fontSize: 22, color: Colors.grey.shade500),
                 ),
-                const Icon(Icons.keyboard_double_arrow_right_rounded),
+              const  DotSeperator(),
                 Text(
                   estReachTime,
                   overflow: TextOverflow.ellipsis,
@@ -54,7 +55,7 @@ class UserJourneyBottomBar extends StatelessWidget {
             ),
             Text(
               destnName,
-              style:const TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: 18),
             )
           ],
         ),

@@ -6,6 +6,7 @@ import 'package:lecab/provider/User/user_googlemap_provider.dart';
 import 'package:lecab/widget/User/Bottom%20Bar/user_journey_bottmapp.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class UserJourney extends StatelessWidget {
   DateTime? dateTime;
   UserJourney({this.dateTime, super.key});
@@ -13,7 +14,7 @@ class UserJourney extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     dateTime = DateTime.now();
-    Duration durationToAdd = Duration(minutes: 20);
+    Duration durationToAdd =const Duration(minutes: 20);
     DateTime timeTaking = dateTime!.add(durationToAdd);
     String time = DateFormat('h:mm a').format(timeTaking).toLowerCase();
 

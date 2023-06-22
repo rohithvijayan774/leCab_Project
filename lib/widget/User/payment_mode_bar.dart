@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lecab/widget/User/user_payment_completed.dart';
+import 'package:lecab/Views/User/user_payment_completed.dart';
 
 // ignore: must_be_immutable
 class PaymentModeBar extends StatelessWidget {

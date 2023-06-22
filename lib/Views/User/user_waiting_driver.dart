@@ -36,8 +36,8 @@ class UserWaitingDriver extends StatelessWidget {
                   draggable: true,
                   icon: BitmapDescriptor.defaultMarkerWithHue(
                       BitmapDescriptor.hueYellow),
-                  markerId: MarkerId('Driver Location'),
-                  position: LatLng(11.249753973368229, 75.83456813073674),
+                  markerId:const MarkerId('Driver Location'),
+                  position:const LatLng(11.249753973368229, 75.83456813073674),
                 )
               },
             ),
