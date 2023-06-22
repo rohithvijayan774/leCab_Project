@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lecab/provider/User/user_googlemap_provider.dart';
+import 'package:lecab/widget/User/user_driver_info_bottomapp.dart';
 import 'package:lecab/widget/User/user_select_vehicle_bottom.dart';
 import 'package:provider/provider.dart';
 
-class UserChooseVehicle extends StatelessWidget {
-  const UserChooseVehicle({super.key});
+class UserDriverInfo extends StatelessWidget {
+  const UserDriverInfo({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,29 +34,32 @@ class UserChooseVehicle extends StatelessWidget {
                 )
               },
             ),
-            Positioned(
-              top: 10,
-              left: 10,
-              child: SafeArea(
-                child: Container(
-                  decoration:const BoxDecoration(
-                      shape: BoxShape.circle, color: Colors.black),
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            )
+            // Positioned(
+            //   top: 10,
+            //   left: 10,
+            //   child: SafeArea(
+            //     child: Container(
+            //       decoration: const BoxDecoration(
+            //           shape: BoxShape.circle, color: Colors.black),
+            //       child: IconButton(
+            //         onPressed: () {
+            //           Navigator.pop(context);
+            //         },
+            //         icon: const Icon(
+            //           Icons.arrow_back_ios_new_rounded,
+            //           color: Colors.white,
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // )
           ],
         ),
       ),
-      bottomNavigationBar: const UserSelectVehicleBottomApp(),
+      bottomNavigationBar: UserDriverInfoBottomApp(
+          driverPic: 'lib/assets/profile.png',
+          driverName: 'Rohith Vijayan',
+          vehicleNumber: 'KL 11 AQ 9221'),
     );
   }
 }

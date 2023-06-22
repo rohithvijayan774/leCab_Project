@@ -92,7 +92,7 @@ class UserNumberValidation extends StatelessWidget {
                       },
                       child: const Text(
                         "Continue",
-                        style: TextStyle(fontSize: 25, color: Colors.white),
+                        style: TextStyle(fontSize: 22, color: Colors.white),
                       ),
                     ),
                   ),

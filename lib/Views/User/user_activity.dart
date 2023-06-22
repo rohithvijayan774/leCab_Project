@@ -10,20 +10,8 @@ class UserActivity extends StatelessWidget {
   Widget build(BuildContext context) {
     final googleMapProvider =
         Provider.of<UserGoogleMapProvider>(context, listen: false);
-    return Scaffold(
-        body: Stack(
-      children: [
-        GoogleMap(
-          initialCameraPosition: googleMapProvider.yourLocation,
-          mapType: MapType.normal,
-          myLocationButtonEnabled: true,
-          onMapCreated: (controller) {
-            googleMapProvider.googleMapController.complete(controller);
-           
-            // _newGoogleMapController = controller;
-          },
-        ),
-      ],
-    ));
+
+    // googleMapProvider.getCurrentLocation();
+    return Scaffold(body: Center());
   }
 }

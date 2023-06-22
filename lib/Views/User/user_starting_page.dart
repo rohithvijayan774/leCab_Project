@@ -56,9 +56,9 @@ class UserStartingPage extends StatelessWidget {
                           builder: (context) => const UserBottomNavBar(),
                         ));
                       },
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: const [
+                        children: [
                           Text(
                             "Get Started",
                             style: TextStyle(fontSize: 25, color: Colors.white),

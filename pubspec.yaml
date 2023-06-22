@@ -34,6 +34,7 @@ dependencies:
   firebase_database: ^10.2.3
   flutter:
     sdk: flutter
+  geolocator: ^9.0.2
   google_maps_flutter: ^2.3.1
   location: ^4.4.0
   pinput: ^2.2.31
@@ -62,6 +63,10 @@ flutter:
     - lib/assets/terms_conditions.png
     - lib/assets/Map_home.png
     - lib/assets/home_map.png
+    - lib/assets/car.png
+    - lib/assets/rickshaw3D.png
+    - lib/assets/suv3D.png
+    - lib/assets/profile.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

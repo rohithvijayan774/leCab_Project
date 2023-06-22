@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:lecab/Views/User/user_showing_driver_info.dart';
 import 'package:lecab/provider/User/user_googlemap_provider.dart';
-import 'package:lecab/widget/User/home_search_button.dart';
-import 'package:lecab/widget/User/user_home_bottom_appbar.dart';
+import 'package:lecab/widget/User/driver_waiting_bottombar.dart';
 import 'package:provider/provider.dart';
 
-class UserHome extends StatelessWidget {
-  const UserHome({super.key});
+class UserWaitingDriver extends StatelessWidget {
+  const UserWaitingDriver({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final googleMapProvider =
-        Provider.of<UserGoogleMapProvider>(context, listen: false);
+    final googleMapProvider = Provider.of<UserGoogleMapProvider>(context);
     return Scaffold(
       body: Center(
         child: Stack(
@@ -35,21 +34,33 @@ class UserHome extends StatelessWidget {
                 )
               },
             ),
-            const Positioned(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 60,
+            Positioned(
+              top: 10,
+              right: 10,
+              child: SafeArea(
+                child: Container(
+                  decoration: const BoxDecoration(
+                      shape: BoxShape.circle, color: Colors.black),
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const UserDriverInfo(),
+                        ),
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: Colors.white,
+                    ),
                   ),
-                  HomeSearchButton()
-                ],
+                ),
               ),
             )
           ],
         ),
       ),
-      bottomNavigationBar: const UserHomeBottomAppBar(),
+      bottomNavigationBar: const DriverWaitingBottomBar(),
     );
   }
 }
