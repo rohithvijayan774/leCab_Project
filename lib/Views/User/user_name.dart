@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lecab/Views/User/user_terms_privacy.dart';
-import 'package:lecab/provider/User/user_details_provider.dart';
+import 'package:lecab/provider/User/number_validation.dart';
 import 'package:provider/provider.dart';
 
 class UserName extends StatelessWidget {
@@ -8,11 +8,11 @@ class UserName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pro = Provider.of<UserDetailsProvider>(context);
+    final userDetailsPro = Provider.of<UserDetailsProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Form(
-          key: pro.userNameFormKey,
+          key: userDetailsPro.userNameFormKey,
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.only(
@@ -46,7 +46,7 @@ class UserName extends StatelessWidget {
                       }
                     },
                     textCapitalization: TextCapitalization.words,
-                    controller: pro.userFirstNameController,
+                    controller: userDetailsPro.userFirstNameController,
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(), hintText: 'Firstname'),
                   ),
@@ -62,7 +62,7 @@ class UserName extends StatelessWidget {
                       }
                     },
                     textCapitalization: TextCapitalization.words,
-                    controller: pro.userSurNameController,
+                    controller: userDetailsPro.userSurNameController,
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(), hintText: 'Surname'),
                   ),
@@ -86,7 +86,7 @@ class UserName extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                if (pro.userNameFormKey.currentState!.validate()) {
+                if (userDetailsPro.userNameFormKey.currentState!.validate()) {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => const UserTermsAndPolicy(),
@@ -99,7 +99,10 @@ class UserName extends StatelessWidget {
                 children: [
                   Text(
                     "next",
-                    style: TextStyle(fontSize: 25, color: Colors.white),
+                    style: TextStyle(
+                        fontFamily: 'SofiaPro',
+                        fontSize: 25,
+                        color: Colors.white),
                   ),
                   Icon(
                     Icons.chevron_right_rounded,

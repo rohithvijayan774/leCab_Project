@@ -20,8 +20,8 @@ class HomeSearchButton extends StatelessWidget {
           style: ButtonStyle(
               backgroundColor: MaterialStatePropertyAll(Colors.grey.shade200),
               elevation: const MaterialStatePropertyAll(2)),
-          child:const Row(
-            children:  [
+          child: const Row(
+            children: [
               SizedBox(
                 width: 10,
               ),
@@ -36,6 +36,7 @@ class HomeSearchButton extends StatelessWidget {
               Text(
                 'Where to?',
                 style: TextStyle(
+                    fontFamily: 'Poppins',
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
                     color: Colors.grey),

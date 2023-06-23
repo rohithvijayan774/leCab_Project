@@ -33,20 +33,29 @@ class UserJourneyBottomBar extends StatelessWidget {
             ),
             Text(
               '$timeToReach mins',
-              style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   '$distanceToDestn km',
-                  style: TextStyle(fontSize: 22, color: Colors.grey.shade500),
+                  style: TextStyle(
+                      fontFamily: 'SofiaPro',
+                      fontSize: 22,
+                      color: Colors.grey.shade500),
                 ),
-              const  DotSeperator(),
+                const DotSeperator(),
                 Text(
                   estReachTime,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 22, color: Colors.grey.shade500),
+                  style: TextStyle(
+                      fontFamily: 'SofiaPro',
+                      fontSize: 22,
+                      color: Colors.grey.shade500),
                 ),
               ],
             ),
@@ -55,7 +64,7 @@ class UserJourneyBottomBar extends StatelessWidget {
             ),
             Text(
               destnName,
-              style: const TextStyle(fontSize: 18),
+              style: const TextStyle(fontFamily: 'SofiaPro', fontSize: 18),
             )
           ],
         ),

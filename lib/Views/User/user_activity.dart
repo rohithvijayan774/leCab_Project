@@ -17,7 +17,7 @@ class UserActivity extends StatelessWidget {
     ];
     dateTime = DateTime.now();
     String date = DateFormat('dd MMM').format(dateTime!);
-    String time = DateFormat('h:mm a').format(dateTime!);
+    String time = DateFormat('h:mm a').format(dateTime!).toLowerCase();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -29,7 +29,10 @@ class UserActivity extends StatelessWidget {
           ),
           child: Text(
             'Activity',
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 30,
+                fontWeight: FontWeight.bold),
           ),
         ),
       ),

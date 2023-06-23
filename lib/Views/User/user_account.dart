@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lecab/Views/User/user_starting_page.dart';
+import 'package:lecab/Views/splash_screen.dart';
 import 'package:lecab/provider/User/bottom_nav_bar_provider.dart';
 import 'package:lecab/provider/User/number_validation.dart';
-import 'package:lecab/provider/User/user_details_provider.dart';
 import 'package:provider/provider.dart';
 
 class UserAccount extends StatelessWidget {
@@ -10,9 +9,9 @@ class UserAccount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userNamePro = Provider.of<UserDetailsProvider>(context);
-    final userNumberPro =
-        Provider.of<NumberValidationProvider>(context, listen: false);
+    // final userNamePro = Provider.of<UserDetailsProvider>(context);
+    final userDetailsPro =
+        Provider.of<UserDetailsProvider>(context, listen: false);
     final userBottomNavPro = Provider.of<UserBottomNavBarProvider>(context);
     return Scaffold(
       body: SafeArea(
@@ -25,13 +24,19 @@ class UserAccount extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    userNamePro.userFirstNameController.text,
+                    userDetailsPro.userFirstNameController.text,
                     style: const TextStyle(
-                        fontSize: 30, fontWeight: FontWeight.bold),
+                        fontFamily: 'Poppins',
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold),
                   ),
-                  Image.asset(
-                    'lib/assets/profile.png',
-                    scale: 5,
+                  CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    radius: 50,
+                    child: Image.asset(
+                      'lib/assets/user.png',
+                      scale: 5,
+                    ),
                   ),
                 ],
               ),
@@ -48,44 +53,66 @@ class UserAccount extends StatelessWidget {
               ),
               const Text(
                 "UserName",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
               ),
               Text(
-                userNamePro.userFirstNameController.text +
-                    userNamePro.userSurNameController.text,
-                style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                userDetailsPro.userFirstNameController.text +
+                    userDetailsPro.userSurNameController.text,
+                style: const TextStyle(
+                    fontFamily: 'SofiaPro',
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500),
               ),
               const SizedBox(
                 height: 20,
               ),
               const Text(
                 "Phone Number",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
               ),
               Text(
-                userNumberPro.countryCodeController.text +
-                    userNumberPro.numberController.text,
-                style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                userDetailsPro.countryCodeController.text +
+                    userDetailsPro.numberController.text,
+                style: const TextStyle(
+                    fontFamily: 'SofiaPro',
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500),
               ),
               const SizedBox(
                 height: 20,
               ),
               const Text(
                 "Email",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
               ),
               const Text(
                 "userEmail",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+                style: TextStyle(
+                    fontFamily: 'SofiaPro',
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500),
               ),
               const SizedBox(
                 height: 20,
               ),
               const Spacer(),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const SplashScreen(),
+                    ),
+                  );
+                },
                 child: const Row(
                   children: [
                     Icon(
@@ -98,6 +125,7 @@ class UserAccount extends StatelessWidget {
                     Text(
                       'Call Emergency',
                       style: TextStyle(
+                        fontFamily: 'Poppins',
                         fontSize: 25,
                         color: Colors.black,
                       ),
@@ -111,16 +139,21 @@ class UserAccount extends StatelessWidget {
               TextButton(
                 onPressed: () {
                   userBottomNavPro.currentIndex = 0;
-                  userNumberPro.clearNumberField();
-                  userNamePro.clearNameFields();
-                  Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                          builder: (ctx1) => const UserStartingPage()),
-                      (route) => false);
+                  userDetailsPro.signOut(context);
+                  // userDetailsPro.clearNumberField();
+                  // userDetailsPro.clearNameFields();
+                  // Navigator.of(context).pushAndRemoveUntil(
+                  //     MaterialPageRoute(
+                  //         builder: (ctx1) => const UserStartingPage()),
+                  //     (route) => false);
                 },
                 child: const Text(
                   'SignOut',
-                  style: TextStyle(color: Colors.red, fontSize: 20),
+                  style: TextStyle(
+                      fontFamily: 'SofiaPro',
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red,
+                      fontSize: 20),
                 ),
               )
             ],

@@ -40,6 +40,7 @@ class PaymentModeBar extends StatelessWidget {
             Text(
               payLabel,
               style: const TextStyle(
+                  fontFamily: 'SofiaPro',
                   fontSize: 23,
                   // fontWeight: FontWeight.bold,
                   color: Colors.black),

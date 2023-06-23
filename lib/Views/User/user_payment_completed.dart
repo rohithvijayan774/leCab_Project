@@ -14,7 +14,8 @@ class UserPaymentCompleted extends StatelessWidget {
             IconButton(
               onPressed: () {
                 Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (ctx1) => const UserBottomNavBar()),
+                    MaterialPageRoute(
+                        builder: (ctx1) => const UserBottomNavBar()),
                     (route) => false);
               },
               icon: const Icon(Icons.close),
@@ -33,8 +34,10 @@ class UserPaymentCompleted extends StatelessWidget {
                     ),
                     const Text(
                       'Payment Completed',
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold),
                     )
                   ],
                 ),

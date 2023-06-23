@@ -22,7 +22,10 @@ class UserHomeBottomAppBar extends StatelessWidget {
             ),
             const Text(
               'Your Last Ride To,',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontFamily: 'SofiaPro',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
             ),
             const SizedBox(
               height: 5,
@@ -57,13 +60,17 @@ class UserHomeBottomAppBar extends StatelessWidget {
                     Text(
                       'HiLite Mall',
                       style: TextStyle(
+                          fontFamily: 'SofiaPro',
                           fontSize: 23,
-                          // fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.bold,
                           color: Colors.black),
                     ),
                     Text(
                       'G1003, NH 66, Kozhikode Bypass, Poovangal, Kozhikode',
-                      style: TextStyle(color: Colors.black45, fontSize: 15),
+                      style: TextStyle(
+                          fontFamily: 'SofiaPro',
+                          color: Colors.black45,
+                          fontSize: 15),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                     ),
@@ -104,8 +111,9 @@ class UserHomeBottomAppBar extends StatelessWidget {
                     Text(
                       'Hire Cab',
                       style: TextStyle(
+                          fontFamily: 'SofiaPro',
                           fontSize: 23,
-                          // fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.bold,
                           color: Colors.black),
                     ),
                   ],

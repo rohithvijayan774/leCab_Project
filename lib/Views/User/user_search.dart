@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lecab/Views/User/user_choose_vehicle.dart';
-import 'package:lecab/provider/User/user_details_provider.dart';
+import 'package:lecab/provider/User/number_validation.dart';
 import 'package:provider/provider.dart';
 
 class UserSearch extends StatelessWidget {
@@ -34,7 +34,10 @@ class UserSearch extends StatelessWidget {
                   ),
                   const Text(
                     'Where to ?',
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold),
                   )
                 ],
               ),
@@ -105,14 +108,18 @@ class UserSearch extends StatelessWidget {
                       title: Text(
                         searchPlacesList[index],
                         style: const TextStyle(
+                            fontFamily: 'SofiaPro',
                             fontSize: 20,
-                            // fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.bold,
                             color: Colors.black),
                         // overflow: TextOverflow.ellipsis,
                       ),
                       subtitle: const Text(
                         'Railwaystation 4th Platform Rd, Kuttichira, Kozhikode',
-                        style: TextStyle(color: Colors.black45, fontSize: 15),
+                        style: TextStyle(
+                            fontFamily: 'SofiaPro',
+                            color: Colors.black45,
+                            fontSize: 15),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                       ),

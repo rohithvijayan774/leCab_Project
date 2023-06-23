@@ -21,7 +21,10 @@ class DriverWaitingBottomBar extends StatelessWidget {
             ),
             const Text(
               'Please wait, your driver is on the way...',
-              style: TextStyle(fontSize: 25),
+              style: TextStyle(
+                  fontFamily: 'SofiaPro',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 25),
             ),
             const SizedBox(
               height: 20,
@@ -30,17 +33,17 @@ class DriverWaitingBottomBar extends StatelessWidget {
               minHeight: 2,
               color: Colors.black,
             ),
-           const SizedBox(
+            const SizedBox(
               height: 20,
             ),
             ElevatedButton.icon(
-              icon:const Icon(
+              icon: const Icon(
                 Icons.close,
                 color: Colors.white,
               ),
               style: ButtonStyle(
-                shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15))),
+                // shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                //     borderRadius: BorderRadius.circular(15))),
                 overlayColor: MaterialStateProperty.all(Colors.grey),
                 backgroundColor: MaterialStateProperty.all(Colors.black),
                 minimumSize: MaterialStateProperty.all(
@@ -52,7 +55,11 @@ class DriverWaitingBottomBar extends StatelessWidget {
               },
               label: const Text(
                 "Cancel ride",
-                style: TextStyle(fontSize: 22, color: Colors.white),
+                style: TextStyle(
+                  fontFamily: 'SofiaPro',
+                  fontSize: 22,
+                  color: Colors.white,
+                ),
               ),
             ),
           ],

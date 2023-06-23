@@ -26,9 +26,11 @@ class VehicleSelectionBar extends StatelessWidget {
           backgroundColor: MaterialStatePropertyAll(Colors.grey.shade200),
         ),
         onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) =>const UserWaitingDriver(),
-          ),);
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const UserWaitingDriver(),
+            ),
+          );
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -40,6 +42,7 @@ class VehicleSelectionBar extends StatelessWidget {
             Text(
               vehicleType,
               style: const TextStyle(
+                  fontFamily: 'Poppins',
                   fontSize: 23,
                   // fontWeight: FontWeight.bold,
                   color: Colors.black),
@@ -47,6 +50,7 @@ class VehicleSelectionBar extends StatelessWidget {
             Text(
               '₹$amount',
               style: const TextStyle(
+                  fontFamily: 'Poppins',
                   fontSize: 23,
                   // fontWeight: FontWeight.bold,
                   color: Colors.black),

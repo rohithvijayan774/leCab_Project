@@ -37,6 +37,7 @@ dependencies:
   geolocator: ^9.0.2
   google_maps_flutter: ^2.3.1
   intl: ^0.18.1
+  loading_animation_widget: ^1.2.0+4
   location: ^4.4.0
   pinput: ^2.2.31
   provider: ^6.0.5
@@ -62,8 +63,6 @@ flutter:
     - lib/assets/taxi_front_page.png
     - lib/assets/Road_bg.png
     - lib/assets/terms_conditions.png
-    - lib/assets/Map_home.png
-    - lib/assets/home_map.png
     - lib/assets/car.png
     - lib/assets/rickshaw3D.png
     - lib/assets/suv3D.png
@@ -71,6 +70,7 @@ flutter:
     - lib/assets/cash_by_hand.png
     - lib/assets/online_payment.png
     - lib/assets/done.png
+    - lib/assets/user.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see
@@ -80,7 +80,27 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: lib/assets/fonts/Poppins-Bold.ttf
+          weight: 700
+    - family: Spartan
+      fonts:
+        - asset: lib/assets/fonts/spartan.otf
+          weight: 700
+    - family: SofiaPro
+      fonts:
+        - asset: lib/assets/fonts/sofiapro.otf
+          weight: 700
+    - family: Vania
+      fonts:
+        - asset: lib/assets/fonts/Vania.ttf
+          weight: 700
+    - family: Fabada
+      fonts:
+        - asset: lib/assets/fonts/Fabada-regular.ttf
+          weight: 700
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

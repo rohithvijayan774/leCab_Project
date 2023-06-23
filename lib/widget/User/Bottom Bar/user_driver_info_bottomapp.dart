@@ -30,14 +30,24 @@ class UserDriverInfoBottomApp extends StatelessWidget {
             ),
             const Text(
               "Driver Info",
-              style: TextStyle(fontSize: 22),
+              style: TextStyle(fontFamily: 'Poppins', fontSize: 22),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'Name : \n$driverName',
-                  style: const TextStyle(fontSize: 20),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Name',
+                      style: TextStyle(fontFamily: 'Poppins', fontSize: 20),
+                    ),
+                    Text(
+                      driverName,
+                      style:
+                          const TextStyle(fontFamily: 'SofiaPro', fontSize: 23),
+                    ),
+                  ],
                 ),
                 Image.asset(
                   driverPic,
@@ -48,9 +58,18 @@ class UserDriverInfoBottomApp extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            Text(
-              "Vehicle Number : \n$vehicleNumber",
-              style: const TextStyle(fontSize: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "Vehicle Number",
+                  style: TextStyle(fontFamily: 'Poppins', fontSize: 20),
+                ),
+                Text(
+                  vehicleNumber,
+                  style: const TextStyle(fontFamily: 'SofiaPro', fontSize: 23),
+                ),
+              ],
             ),
             const SizedBox(
               height: 30,
@@ -61,8 +80,8 @@ class UserDriverInfoBottomApp extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     style: ButtonStyle(
-                      shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15))),
+                      // shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                      //     borderRadius: BorderRadius.circular(15))),
                       overlayColor: MaterialStateProperty.all(Colors.grey),
                       backgroundColor: MaterialStateProperty.all(Colors.black),
                       minimumSize: MaterialStateProperty.all(
@@ -78,7 +97,10 @@ class UserDriverInfoBottomApp extends StatelessWidget {
                     },
                     child: const Text(
                       "Accept",
-                      style: TextStyle(fontSize: 22, color: Colors.white),
+                      style: TextStyle(
+                          fontFamily: 'SofiaPro',
+                          fontSize: 22,
+                          color: Colors.white),
                     ),
                   ),
                 ],

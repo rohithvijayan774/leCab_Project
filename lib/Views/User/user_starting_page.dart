@@ -20,11 +20,12 @@ class UserStartingPage extends StatelessWidget {
               child: Column(
                 children: [
                   const Text(
-                    "Hire   Cab    for your Trip",
+                    "Hire\nCab\nfor your Trip",
                     style: TextStyle(
+                      fontFamily: 'Poppins',
                       fontWeight: FontWeight.bold,
-                      fontSize: 110,
-                      height: 1,
+                      fontSize: 100,
+                      height: 1.2,
                     ),
                   ),
                   const SizedBox(
@@ -60,7 +61,11 @@ class UserStartingPage extends StatelessWidget {
                         children: [
                           Text(
                             "Get Started",
-                            style: TextStyle(fontSize: 25, color: Colors.white),
+                            style: TextStyle(
+                              fontFamily: 'SofiaPro',
+                              fontSize: 25,
+                              color: Colors.white,
+                            ),
                           ),
                           Icon(
                             Icons.chevron_right_rounded,

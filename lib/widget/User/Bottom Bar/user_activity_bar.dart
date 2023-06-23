@@ -27,18 +27,25 @@ class UserActivityBar extends StatelessWidget {
       ),
       title: Text(
         dropOffLoc,
-        style: const TextStyle(fontSize: 18),
+        style: const TextStyle(
+            fontFamily: 'SofiaPro', fontWeight: FontWeight.w800, fontSize: 18),
       ),
       subtitle: Row(
         children: [
           Text(
             bookedDate,
-            style: const TextStyle(color: Colors.grey),
+            style: const TextStyle(
+                fontFamily: 'SofiaPro',
+                fontWeight: FontWeight.bold,
+                color: Colors.grey),
           ),
           const DotSeperator(),
           Text(
             bookedTime,
-            style: const TextStyle(color: Colors.grey),
+            style: const TextStyle(
+                fontFamily: 'SofiaPro',
+                fontWeight: FontWeight.bold,
+                color: Colors.grey),
           ),
         ],
       ),
@@ -51,7 +58,10 @@ class UserActivityBar extends StatelessWidget {
         ),
         label: const Text(
           'Rebook',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(
+              fontFamily: 'SofiaPro',
+              fontWeight: FontWeight.w700,
+              color: Colors.black),
         ),
       ),
     );

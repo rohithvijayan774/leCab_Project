@@ -12,7 +12,10 @@ class UserPaymentMode extends StatelessWidget {
           automaticallyImplyLeading: false,
           title: const Text(
             "Payment",
-            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 40,
+                fontWeight: FontWeight.bold),
           ),
         ),
         automaticallyImplyLeading: false,
@@ -27,7 +30,10 @@ class UserPaymentMode extends StatelessWidget {
                 children: [
                   const Text(
                     "Pay ₹0.0",
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     height: 30,

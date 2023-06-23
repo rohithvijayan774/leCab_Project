@@ -8,8 +8,8 @@ class UserNumberValidation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pro = Provider.of<NumberValidationProvider>(context);
-    final proLF = Provider.of<NumberValidationProvider>(context, listen: false);
+    final pro = Provider.of<UserDetailsProvider>(context);
+    final proLF = Provider.of<UserDetailsProvider>(context, listen: false);
     pro.countryCodeController.text = "+91";
     return Scaffold(
       body: SafeArea(
@@ -111,7 +111,10 @@ class UserNumberValidation extends StatelessWidget {
                         },
                         child: const Text(
                           "Continue",
-                          style: TextStyle(fontSize: 22, color: Colors.white),
+                          style: TextStyle(
+                              fontFamily: 'SofiaPro',
+                              fontSize: 22,
+                              color: Colors.white),
                         ),
                       ),
                     ),

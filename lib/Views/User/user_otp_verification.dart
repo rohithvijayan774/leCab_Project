@@ -9,7 +9,7 @@ class UserOTPVerification extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pro = Provider.of<NumberValidationProvider>(context);
+    final pro = Provider.of<UserDetailsProvider>(context);
     // final defaultPinTheme = PinTheme(
     //     width: 56,
     //     height: 20,
@@ -67,12 +67,15 @@ class UserOTPVerification extends StatelessWidget {
                   builder: (context) => const UserName(),
                 ));
               },
-              child:const Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children:  [
+                children: [
                   Text(
                     "next",
-                    style: TextStyle(fontSize: 25, color: Colors.white),
+                    style: TextStyle(
+                        fontFamily: 'SofiaPro',
+                        fontSize: 25,
+                        color: Colors.white),
                   ),
                   Icon(
                     Icons.chevron_right_rounded,

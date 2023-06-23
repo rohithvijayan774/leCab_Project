@@ -15,7 +15,7 @@ class UserTermsAndPolicy extends StatelessWidget {
               children: [
                 const Text(
                   'Accept Terms & Privacy Notice',
-                  style: TextStyle(fontSize: 40),
+                  style: TextStyle(fontFamily: 'SofiaPro', fontSize: 40),
                 ),
                 const SizedBox(
                   height: 20,
@@ -29,6 +29,8 @@ class UserTermsAndPolicy extends StatelessWidget {
                 const Text(
                   'By clicking next button, I have reviewed and agree to the Terms of Use and acknowledge the Privacy Notice.',
                   style: TextStyle(
+                    fontFamily: 'SofiaPro',
+                    fontWeight: FontWeight.bold,
                     fontSize: 20,
                   ),
                   textAlign: TextAlign.center,
@@ -54,16 +56,19 @@ class UserTermsAndPolicy extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
-                      builder: (context) =>const UserBottomNavBar(),
+                      builder: (context) => const UserBottomNavBar(),
                     ),
                     (route) => false);
               },
-              child:const Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
                     "next",
-                    style: TextStyle(fontSize: 25, color: Colors.white),
+                    style: TextStyle(
+                        fontFamily: 'SofiaPro',
+                        fontSize: 25,
+                        color: Colors.white),
                   ),
                   Icon(
                     Icons.chevron_right_rounded,
