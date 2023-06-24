@@ -9,7 +9,9 @@ class UserOTPVerification extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pro = Provider.of<UserDetailsProvider>(context);
+    final userDetailsPro = Provider.of<UserDetailsProvider>(context);
+    final userDetailsProLF =
+        Provider.of<UserDetailsProvider>(context, listen: false);
     // final defaultPinTheme = PinTheme(
     //     width: 56,
     //     height: 20,
@@ -22,27 +24,31 @@ class UserOTPVerification extends StatelessWidget {
     //     ));
     return Scaffold(
       body: SafeArea(
-          child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 30, left: 10, right: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Enter the OTP send to the number ${pro.numberController.text}",
-                style: const TextStyle(fontSize: 20),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Pinput(
-                length: 6,
-                showCursor: true,
-              )
-            ],
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 30, left: 10, right: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Enter the OTP send to the number ${userDetailsPro.numberController.text}",
+                  style: const TextStyle(fontSize: 20),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Pinput(
+                  length: 6,
+                  showCursor: true,
+                  onChanged: (value) {
+                    userDetailsPro.smsCode = value;
+                  },
+                ),
+              ],
+            ),
           ),
         ),
-      )),
+      ),
       bottomNavigationBar: BottomAppBar(
         elevation: 0,
         child: Row(
@@ -63,9 +69,7 @@ class UserOTPVerification extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const UserName(),
-                ));
+                userDetailsProLF.verifyOTP(context);
               },
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

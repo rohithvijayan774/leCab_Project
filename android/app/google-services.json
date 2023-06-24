@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "639984582590-8ab6r9opfkvch9c5kvp01g52jc5s9ein.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.lecab",
+            "certificate_hash": "7f07d1edb617e81ccd5fcc0c28147a0badc0fefe"
+          }
+        },
+        {
           "client_id": "639984582590-h6lu6jgh0p991dfsb01oiasmdbsbt666.apps.googleusercontent.com",
           "client_type": 3
         }

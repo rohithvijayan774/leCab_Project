@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lecab/Views/splash_screen.dart';
 import 'package:lecab/provider/User/bottom_nav_bar_provider.dart';
 import 'package:lecab/provider/User/number_validation.dart';
 import 'package:provider/provider.dart';
@@ -106,13 +105,7 @@ class UserAccount extends StatelessWidget {
               ),
               const Spacer(),
               TextButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const SplashScreen(),
-                    ),
-                  );
-                },
+                onPressed: () {},
                 child: const Row(
                   children: [
                     Icon(

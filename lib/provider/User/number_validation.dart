@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lecab/Views/User/user_name.dart';
+import 'package:lecab/Views/User/user_otp_verification.dart';
 import 'package:lecab/Views/splash_screen.dart';
 
 class UserDetailsProvider extends ChangeNotifier {
@@ -9,11 +11,12 @@ class UserDetailsProvider extends ChangeNotifier {
 
   TextEditingController countryCodeController = TextEditingController();
   TextEditingController numberController = TextEditingController();
-  String? smsCode;
-  String? verificationCode;
+  var smsCode = '';
+  static String verificationCode = '';
   final numberFormKey = GlobalKey<FormState>();
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
-  Future<void> sendOTP() async {
+  Future<void> sendOTP(context) async {
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: countryCodeController.text + numberController.text,
       verificationCompleted: (phoneAuthCredential) {},
@@ -21,12 +24,37 @@ class UserDetailsProvider extends ChangeNotifier {
         log("Verification failed $error");
       },
       codeSent: (String verificationId, int? forceResendingToken) {
+        verificationCode = verificationId;
         log(verificationId);
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const UserOTPVerification(),
+        ));
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
     );
     log("OTP Sent to ${countryCodeController.text + numberController.text}");
 
+    notifyListeners();
+  }
+
+  verifyOTP(context) async {
+    try {
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+          verificationId: verificationCode, smsCode: smsCode);
+      await auth.signInWithCredential(credential);
+      log("OTP correct");
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const UserName(),
+          ),
+          (route) => false);
+      // Navigator.of(context).push(MaterialPageRoute(
+      //   builder: (context) => const UserName(),
+      // ));
+    } catch (e) {
+      print(e);
+    }
     notifyListeners();
   }
 

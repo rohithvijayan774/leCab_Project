@@ -8,13 +8,14 @@ class UserNumberValidation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pro = Provider.of<UserDetailsProvider>(context);
-    final proLF = Provider.of<UserDetailsProvider>(context, listen: false);
-    pro.countryCodeController.text = "+91";
+    final userDetailsPro = Provider.of<UserDetailsProvider>(context);
+    final userDetailsProLF =
+        Provider.of<UserDetailsProvider>(context, listen: false);
+    userDetailsPro.countryCodeController.text = "+91";
     return Scaffold(
       body: SafeArea(
         child: Form(
-          key: pro.numberFormKey,
+          key: userDetailsPro.numberFormKey,
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.only(
@@ -52,7 +53,7 @@ class UserNumberValidation extends StatelessWidget {
                                 return null;
                               }
                             },
-                            controller: pro.countryCodeController,
+                            controller: userDetailsPro.countryCodeController,
                             keyboardType: TextInputType.phone,
                             decoration: const InputDecoration(
                               border: InputBorder.none,
@@ -73,7 +74,7 @@ class UserNumberValidation extends StatelessWidget {
                                   return null;
                                 }
                               },
-                              controller: pro.numberController,
+                              controller: userDetailsPro.numberController,
                               // maxLength: 10,
                               keyboardType: TextInputType.phone,
                               decoration: const InputDecoration(
@@ -101,12 +102,9 @@ class UserNumberValidation extends StatelessWidget {
                           ),
                         ),
                         onPressed: () async {
-                          if (pro.numberFormKey.currentState!.validate()) {
-                            await proLF.sendOTP();
-                            // ignore: use_build_context_synchronously
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const UserOTPVerification(),
-                            ));
+                          if (userDetailsPro.numberFormKey.currentState!
+                              .validate()) {
+                            await userDetailsProLF.sendOTP(context);
                           }
                         },
                         child: const Text(

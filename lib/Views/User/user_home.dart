@@ -12,6 +12,7 @@ class UserHome extends StatelessWidget {
   Widget build(BuildContext context) {
     final googleMapProvider =
         Provider.of<UserGoogleMapProvider>(context, listen: false);
+      
     return Scaffold(
       body: Center(
         child: Stack(
