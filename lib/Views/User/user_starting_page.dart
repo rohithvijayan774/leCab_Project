@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lecab/Views/User/user_number_validation.dart';
+import 'package:lecab/widget/User/user_bottom_nav_bar.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class UserStartingPage extends StatelessWidget {
   const UserStartingPage({super.key});
@@ -48,10 +49,16 @@ class UserStartingPage extends StatelessWidget {
                           const Size(200, 50),
                         ),
                       ),
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const UserNumberValidation(),
-                        ));
+                      onPressed: () async {
+                        PermissionStatus locationPermission =
+                            await Permission.location.request();
+
+                        if (locationPermission == PermissionStatus.granted) {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const UserBottomNavBar(),
+                          ));
+                        }
+
                         // Navigator.of(context).push(MaterialPageRoute(
                         //   builder: (context) => const UserBottomNavBar(),
                         // ));

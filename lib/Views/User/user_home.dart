@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:lecab/Views/osm%20Map/osm_sample.dart';
+import 'package:lecab/provider/User/osm_map_provider.dart';
 import 'package:lecab/provider/User/user_googlemap_provider.dart';
 import 'package:lecab/widget/User/home_search_button.dart';
 import 'package:lecab/widget/User/Bottom%20Bar/user_home_bottom_appbar.dart';
@@ -10,31 +12,35 @@ class UserHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final googleMapProvider =
-        Provider.of<UserGoogleMapProvider>(context, listen: false);
-      
+    final googleMapProvider = Provider.of<UserGoogleMapProvider>(context);
+
     return Scaffold(
       body: Center(
         child: Stack(
           alignment: Alignment.center,
           children: [
             GoogleMap(
+              padding: const EdgeInsets.only(top: 300),
+
               initialCameraPosition: googleMapProvider.yourLocation,
               mapType: MapType.normal,
-              myLocationButtonEnabled: true,
-              onMapCreated: (controller) {
+              // myLocationButtonEnabled: true,
+              myLocationEnabled: true,
+              zoomGesturesEnabled: true,
+              zoomControlsEnabled: true,
+              onMapCreated: (GoogleMapController controller) {
                 googleMapProvider.googleMapController.complete(controller);
-
-                // _newGoogleMapController = controller;
+                googleMapProvider.newGoogleMapController = controller;
+                googleMapProvider.locatePosition();
               },
-              markers: {
-                const Marker(
-                  // icon: BitmapDescriptor.defaultMarkerWithHue(
-                  //     BitmapDescriptor.hueAzure),
-                  markerId: MarkerId('Your Location'),
-                  position: LatLng(11.249284377235318, 75.83412108356296),
-                )
-              },
+              // markers: {
+              //   Marker(
+              //     // icon: BitmapDescriptor.defaultMarkerWithHue(
+              //     //     BitmapDescriptor.hueAzure),
+              //     markerId:const MarkerId('Destinatin Location'),
+              //     position: destinationLocation,
+              //   ),
+              // },
             ),
             const Positioned(
               child: Column(
@@ -51,6 +57,11 @@ class UserHome extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: const UserHomeBottomAppBar(),
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const OSMSample(),
+        ));
+      }),
     );
   }
 }

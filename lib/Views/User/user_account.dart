@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lecab/provider/User/bottom_nav_bar_provider.dart';
-import 'package:lecab/provider/User/number_validation.dart';
+import 'package:lecab/provider/User/user_details_provider.dart';
 import 'package:provider/provider.dart';
 
 class UserAccount extends StatelessWidget {

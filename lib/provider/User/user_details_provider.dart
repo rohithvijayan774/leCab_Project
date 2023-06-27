@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:lecab/Views/User/user_name.dart';
 import 'package:lecab/Views/User/user_otp_verification.dart';
 import 'package:lecab/Views/splash_screen.dart';
+import 'package:lecab/widget/authentication_dialogue_widget.dart';
 
 class UserDetailsProvider extends ChangeNotifier {
   //Number Details
@@ -17,10 +18,19 @@ class UserDetailsProvider extends ChangeNotifier {
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   Future<void> sendOTP(context) async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AuthenticationDialogueWidget(
+          message: 'Authenticating, Please wait...',
+        );
+      },
+    );
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: countryCodeController.text + numberController.text,
       verificationCompleted: (phoneAuthCredential) {},
       verificationFailed: (FirebaseAuthException error) {
+        Navigator.pop(context);
         log("Verification failed $error");
       },
       codeSent: (String verificationId, int? forceResendingToken) {
@@ -38,6 +48,14 @@ class UserDetailsProvider extends ChangeNotifier {
   }
 
   verifyOTP(context) async {
+    // showDialog(
+    //   context: context,
+    //   builder: (context) {
+    //     return AuthenticationDialogueWidget(
+    //       message: 'Authenticating, Please wait...',
+    //     );
+    //   },
+    // );
     try {
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
           verificationId: verificationCode, smsCode: smsCode);
@@ -53,6 +71,7 @@ class UserDetailsProvider extends ChangeNotifier {
       //   builder: (context) => const UserName(),
       // ));
     } catch (e) {
+      // Navigator.pop(context);
       print(e);
     }
     notifyListeners();
