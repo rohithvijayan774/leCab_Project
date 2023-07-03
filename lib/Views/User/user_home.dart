@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lecab/Views/osm%20Map/osm_sample.dart';
-import 'package:lecab/provider/User/osm_map_provider.dart';
 import 'package:lecab/provider/User/user_googlemap_provider.dart';
 import 'package:lecab/widget/User/home_search_button.dart';
 import 'package:lecab/widget/User/Bottom%20Bar/user_home_bottom_appbar.dart';

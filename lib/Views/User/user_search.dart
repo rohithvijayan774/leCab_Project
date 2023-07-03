@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
+import 'package:lecab/Views/User/user_choose_vehicle.dart';
 import 'package:lecab/provider/User/osm_map_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -177,6 +178,40 @@ class UserSearch extends StatelessWidget {
                         ),
                 ),
               )
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        elevation: 0,
+        child: ElevatedButton(
+          style: ButtonStyle(
+            overlayColor: MaterialStateProperty.all(Colors.grey),
+            backgroundColor: MaterialStateProperty.all(Colors.black),
+            minimumSize: MaterialStateProperty.all(
+              const Size(50, 40),
+            ),
+          ),
+          onPressed: () {
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (context) => const UserChooseVehicle(),
+                ),
+                (route) => false);
+          },
+          child: const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                "next",
+                style: TextStyle(
+                    fontFamily: 'SofiaPro', fontSize: 25, color: Colors.white),
+              ),
+              Icon(
+                Icons.chevron_right_rounded,
+                size: 30,
+                color: Colors.white,
+              ),
             ],
           ),
         ),
