@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lecab/Views/User/user_terms_privacy.dart';
+
 import 'package:lecab/provider/User/user_details_provider.dart';
+import 'package:lecab/provider/splash_screen_provider.dart';
 import 'package:provider/provider.dart';
 
 class UserName extends StatelessWidget {
@@ -9,6 +11,8 @@ class UserName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userDetailsPro = Provider.of<UserDetailsProvider>(context);
+    // final splashProvider =
+    //     Provider.of<SplashScreenProvider>(context, listen: false);
     return Scaffold(
       body: SafeArea(
         child: Form(
@@ -25,14 +29,14 @@ class UserName extends StatelessWidget {
                 children: [
                   const Text(
                     "What's your name?",
-                    style: TextStyle(fontSize: 25),
+                    style: TextStyle(fontSize: 25, fontFamily: 'SofiaPro'),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   const Text(
                     "Let us know how to address you",
-                    style: TextStyle(fontSize: 15),
+                    style: TextStyle(fontSize: 15, fontFamily: "SofiaPro"),
                   ),
                   const SizedBox(
                     height: 20,
@@ -48,7 +52,9 @@ class UserName extends StatelessWidget {
                     textCapitalization: TextCapitalization.words,
                     controller: userDetailsPro.userFirstNameController,
                     decoration: const InputDecoration(
-                        border: OutlineInputBorder(), hintText: 'Firstname'),
+                        border: OutlineInputBorder(),
+                        hintText: 'Firstname',
+                        hintStyle: TextStyle(fontFamily: 'SofiaPro')),
                   ),
                   const SizedBox(
                     height: 20,
@@ -64,7 +70,9 @@ class UserName extends StatelessWidget {
                     textCapitalization: TextCapitalization.words,
                     controller: userDetailsPro.userSurNameController,
                     decoration: const InputDecoration(
-                        border: OutlineInputBorder(), hintText: 'Surname'),
+                        border: OutlineInputBorder(),
+                        hintText: 'Surname',
+                        hintStyle: TextStyle(fontFamily: 'SofiaPro')),
                   ),
                 ],
               ),
@@ -85,13 +93,25 @@ class UserName extends StatelessWidget {
                   const Size(50, 40),
                 ),
               ),
-              onPressed: () {
+              onPressed: () async {
                 if (userDetailsPro.userNameFormKey.currentState!.validate()) {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const UserTermsAndPolicy(),
-                    ),
-                  );
+                  userDetailsPro.storeData(context, () {
+                    userDetailsPro.saveUserdDataToSP().then((value) =>
+                        userDetailsPro
+                            .setSignIn()
+                            .then((value) => Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const UserTermsAndPolicy(),
+                                ),
+                                (route) => false)));
+                  });
+                  // Navigator.of(context).push(
+                  //   MaterialPageRoute(
+                  //     builder: (context) => const UserTermsAndPolicy(),
+                  //   ),
+                  // );
                 }
               },
               child: const Row(
@@ -117,4 +137,6 @@ class UserName extends StatelessWidget {
       ),
     );
   }
+
+  //Store user data to database
 }

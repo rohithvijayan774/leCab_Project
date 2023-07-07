@@ -10,7 +10,7 @@ class UserNumberValidation extends StatelessWidget {
     final userDetailsPro = Provider.of<UserDetailsProvider>(context);
     final userDetailsProLF =
         Provider.of<UserDetailsProvider>(context, listen: false);
-    userDetailsPro.countryCodeController.text = "+91";
+    // userDetailsPro.countryCodeController.text = "+91";
     return Scaffold(
       body: SafeArea(
         child: Form(
@@ -25,64 +25,45 @@ class UserNumberValidation extends StatelessWidget {
                   const Text(
                     "Enter your mobile number",
                     style: TextStyle(
+                      fontFamily: 'SofiaPro',
                       fontSize: 20,
                     ),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: Colors.grey),
-                    ),
-                    child: Row(
-                      children: [
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        SizedBox(
-                          width: 40,
-                          child: TextFormField(
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return '* This field is required';
-                              } else {
-                                return null;
-                              }
-                            },
-                            controller: userDetailsPro.countryCodeController,
-                            keyboardType: TextInputType.phone,
-                            decoration: const InputDecoration(
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                        const VerticalDivider(
-                          indent: 10,
-                          endIndent: 10,
-                        ),
-                        Expanded(
-                          child: SizedBox(
-                            child: TextFormField(
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return '* This field is required';
-                                } else {
-                                  return null;
-                                }
-                              },
-                              controller: userDetailsPro.numberController,
-                              // maxLength: 10,
-                              keyboardType: TextInputType.phone,
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
+                  TextFormField(
+                    keyboardType: TextInputType.phone,
+                    controller: userDetailsPro.numberController,
+                    decoration: InputDecoration(
+                      hintStyle: const TextStyle(
+                          color: Colors.grey, fontFamily: 'SofiaPro'),
+                      hintText: 'Enter your phone number',
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Colors.black26),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Colors.black26),
+                      ),
+                      prefixIcon: Container(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: () {
+                            userDetailsPro.showCountries(context);
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "${userDetailsPro.selectedCountry.flagEmoji} + ${userDetailsPro.selectedCountry.phoneCode}",
+                                style: const TextStyle(fontSize: 16),
                               ),
-                            ),
+                            ],
                           ),
                         ),
-                      ],
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -116,6 +97,23 @@ class UserNumberValidation extends StatelessWidget {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 30),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      userDetailsPro.otpError == null
+                          ? const Text('')
+                          : Consumer<UserDetailsProvider>(
+                              builder: (context, value, _) {
+                              return Text(
+                                value.otpError!,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                    color: Colors.red, fontFamily: 'SofiaPro'),
+                              );
+                            }),
+                    ],
+                  )
                 ],
               ),
             ),

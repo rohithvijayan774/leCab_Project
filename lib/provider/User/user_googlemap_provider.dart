@@ -5,16 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 
-
 class UserGoogleMapProvider extends ChangeNotifier {
   final Completer<GoogleMapController> googleMapController =
       Completer<GoogleMapController>();
 
-
   Position? currentPosition;
   var geoLocator = Geolocator();
   GoogleMapController? newGoogleMapController;
-
+  // LatLng? _latLngPosition;
+  // LatLng get latLngPosition => _latLngPosition!;
 
   locatePosition() async {
     Position position = await Geolocator.getCurrentPosition(

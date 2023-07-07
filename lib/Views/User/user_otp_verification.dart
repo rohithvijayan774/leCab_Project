@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:lecab/Views/User/user_name.dart';
 import 'package:lecab/provider/User/user_details_provider.dart';
+import 'package:lecab/widget/User/user_bottom_nav_bar.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 
 class UserOTPVerification extends StatelessWidget {
-  const UserOTPVerification({super.key});
+  final String verificationId;
+  const UserOTPVerification({required this.verificationId, super.key});
 
   @override
   Widget build(BuildContext context) {
+    String? otpCode;
     final userDetailsPro = Provider.of<UserDetailsProvider>(context);
     final userDetailsProLF =
         Provider.of<UserDetailsProvider>(context, listen: false);
@@ -40,7 +44,8 @@ class UserOTPVerification extends StatelessWidget {
                   length: 6,
                   showCursor: true,
                   onChanged: (value) {
-                    userDetailsPro.smsCode = value;
+                    otpCode = value;
+                    // userDetailsPro.smsCode = value;
                   },
                 ),
               ],
@@ -68,7 +73,8 @@ class UserOTPVerification extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                userDetailsProLF.verifyOTP(context);
+                verifyOTP(context, otpCode!);
+                // userDetailsProLF.verifyOTP(context);
               },
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -92,5 +98,43 @@ class UserOTPVerification extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void verifyOTP(BuildContext context, String userOTP) {
+    final userDetailsProLF =
+        Provider.of<UserDetailsProvider>(context, listen: false);
+    userDetailsProLF.verifyOTP(
+        context: context,
+        verificationId: verificationId,
+        userOTP: userOTP,
+        onSuccess: () {
+          //checking user exists or not
+          userDetailsProLF.checkExistingUser().then((value) async {
+            if (value == true) {
+              //user exists
+              userDetailsProLF.getDataFromFirestore().then(
+                    (value) => userDetailsProLF.saveUserdDataToSP().then(
+                          (value) => userDetailsProLF.setSignIn().then(
+                                (value) => Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const UserBottomNavBar(),
+                                    ),
+                                    (route) => false),
+                              ),
+                        ),
+                  );
+            } else {
+              //new User
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UserName(),
+                  ),
+                  (route) => false);
+            }
+          });
+        });
   }
 }

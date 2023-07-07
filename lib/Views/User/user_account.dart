@@ -23,12 +23,13 @@ class UserAccount extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    userDetailsPro.userFirstNameController.text,
+                    userDetailsPro.userModel.firstName,
                     style: const TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 30,
                         fontWeight: FontWeight.bold),
                   ),
+                  //8848463680
                   CircleAvatar(
                     backgroundColor: Colors.transparent,
                     radius: 50,
@@ -58,8 +59,7 @@ class UserAccount extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
               Text(
-                userDetailsPro.userFirstNameController.text +
-                    userDetailsPro.userSurNameController.text,
+                "${userDetailsPro.userModel.firstName} ${userDetailsPro.userModel.surName}",
                 style: const TextStyle(
                     fontFamily: 'SofiaPro',
                     fontSize: 20,
@@ -76,8 +76,7 @@ class UserAccount extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
               Text(
-                userDetailsPro.countryCodeController.text +
-                    userDetailsPro.numberController.text,
+                userDetailsPro.userModel.phoneNumber,
                 style: const TextStyle(
                     fontFamily: 'SofiaPro',
                     fontSize: 20,
