@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:lecab/provider/User/user_details_provider.dart';
 import 'package:lecab/widget/User/user_bottom_nav_bar.dart';
+import 'package:provider/provider.dart';
 
 class UserPaymentCompleted extends StatelessWidget {
   const UserPaymentCompleted({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final userDetailsProLF =
+        Provider.of<UserDetailsProvider>(context, listen: false);
     return Scaffold(
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             IconButton(
-              onPressed: () {
+              onPressed: () async {
+                await userDetailsProLF.deleteRoute();
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
                         builder: (ctx1) => const UserBottomNavBar()),

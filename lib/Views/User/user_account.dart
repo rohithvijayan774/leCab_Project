@@ -130,8 +130,8 @@ class UserAccount extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
-                  userBottomNavPro.currentIndex = 0;
                   userDetailsPro.signOut(context);
+                  userBottomNavPro.currentIndex = 0;
                   // userDetailsPro.clearNumberField();
                   // userDetailsPro.clearNameFields();
                   // Navigator.of(context).pushAndRemoveUntil(

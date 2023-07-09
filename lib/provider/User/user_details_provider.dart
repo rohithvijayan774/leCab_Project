@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
@@ -5,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lecab/Views/User/user_number_validation.dart';
 import 'package:lecab/Views/User/user_otp_verification.dart';
 import 'package:lecab/Views/User/user_starting_page.dart';
@@ -143,12 +145,12 @@ class UserDetailsProvider extends ChangeNotifier {
     log("Store data called");
 
     _userModel = UserModel(
-        uid: uid,
-        firstName: userFirstNameController.text.trim(),
-        surName: userSurNameController.text.trim(),
-        phoneNumber: firebaseAuth.currentUser!.phoneNumber!,
-        createdAt: DateTime.now().millisecondsSinceEpoch.toString(),
-        );
+      uid: uid,
+      firstName: userFirstNameController.text.trim(),
+      surName: userSurNameController.text.trim(),
+      phoneNumber: firebaseAuth.currentUser!.phoneNumber!,
+      createdAt: DateTime.now().millisecondsSinceEpoch.toString(),
+    );
 
     await firebaseFirestore
         .collection('users')
@@ -158,9 +160,56 @@ class UserDetailsProvider extends ChangeNotifier {
       onSuccess();
     });
 
+    //Get the User's current Location Once
+    // Position initialPosition = await Geolocator.getCurrentPosition(
+    //     desiredAccuracy: LocationAccuracy.high);
+    // _userModel!.userCurrentLocation =
+    //     GeoPoint(initialPosition.latitude, initialPosition.longitude);
+
+    // //Start listening to location updates
+    // StreamSubscription<Position> positionStream = Geolocator.getPositionStream(
+    //         locationSettings:
+    //             const LocationSettings(accuracy: LocationAccuracy.high))
+    //     .listen((Position position) {
+    //   _userModel!.userCurrentLocation =
+    //       GeoPoint(position.latitude, position.longitude);
+    //   firebaseFirestore
+    //       .collection('users')
+    //       .doc(_uid)
+    //       .set(_userModel!.toMap())
+    //       .then((value) {
+    //     log('Location updated in Firebase');
+    //   });
+    // });
+
     notifyListeners();
 
     log('data stored successfully');
+  }
+
+  setRide(LatLng pickUpCoordinates, LatLng dropOffCoordinates) async {
+    log('Ride Setting');
+    DocumentReference docRef = firebaseFirestore.collection('users').doc(_uid);
+    GeoPoint pickUpLocation =
+        GeoPoint(pickUpCoordinates.latitude, pickUpCoordinates.longitude);
+    GeoPoint dropOffLocation =
+        GeoPoint(dropOffCoordinates.latitude, dropOffCoordinates.longitude);
+
+    log('2nd step');
+    await docRef.update({
+      'pickUpLocation': pickUpLocation,
+      'dropOffLocation': dropOffLocation,
+    });
+    log('Ride updated successfully');
+    notifyListeners();
+  }
+
+  deleteRoute() async {
+    DocumentReference docRef = firebaseFirestore.collection('users').doc(_uid);
+    await docRef.update({
+      'pickUpLocation': FieldValue.delete(),
+      'dropOffLocation': FieldValue.delete(),
+    });
   }
 
   Future getDataFromFirestore() async {
@@ -178,6 +227,7 @@ class UserDetailsProvider extends ChangeNotifier {
       );
       _uid = userModel.uid;
     });
+    notifyListeners();
   }
 
   // Storing data locally
@@ -248,7 +298,7 @@ class UserDetailsProvider extends ChangeNotifier {
                 await clearLocalData();
                 clearNameFields();
                 clearNumberField();
-                Navigator.of(ctx).pushAndRemoveUntil(
+                Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
                       builder: (ctx1) => const SplashScreen(),
                     ),

@@ -15,10 +15,10 @@ class OSMMAPProvider extends ChangeNotifier {
   FocusNode firstFocusNode = FocusNode();
   FocusNode secondFocusNode = FocusNode();
   LatLng? coordinates;
-  double? pickupLatitude;
-  double? pickupLongitude;
-  double? dropOffLatitude;
-  double? dropOffLongitude;
+  LatLng? pickUpCoordinates;
+  LatLng? dropOffCoordinates;
+  // double? dropOffLatitude;
+  // double? dropOffLongitude;
   var markerMap = <String, String>{};
   var position;
 

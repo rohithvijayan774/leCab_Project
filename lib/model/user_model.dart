@@ -1,4 +1,3 @@
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class UserModel {
   String uid;
@@ -18,11 +17,12 @@ class UserModel {
 //from Map
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-        uid: map['uid'] ?? '',
-        firstName: map['firstName'] ?? '',
-        surName: map['surName'] ?? '',
-        phoneNumber: map['phoneNumber'] ?? '',
-        createdAt: map['createdAt'] ?? '',);
+      uid: map['uid'] ?? '',
+      firstName: map['firstName'] ?? '',
+      surName: map['surName'] ?? '',
+      phoneNumber: map['phoneNumber'] ?? '',
+      createdAt: map['createdAt'] ?? '',
+    );
   }
 
 //to Map

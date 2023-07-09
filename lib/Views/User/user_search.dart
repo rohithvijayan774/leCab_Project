@@ -5,6 +5,7 @@ import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:get/get.dart';
 import 'package:lecab/Views/User/user_choose_vehicle.dart';
 import 'package:lecab/provider/User/osm_map_provider.dart';
+import 'package:lecab/provider/User/user_details_provider.dart';
 import 'package:provider/provider.dart';
 
 class UserSearch extends StatelessWidget {
@@ -14,7 +15,8 @@ class UserSearch extends StatelessWidget {
   Widget build(BuildContext context) {
     final osmProviderLF = Provider.of<OSMMAPProvider>(context, listen: false);
     final osmProvider = Provider.of<OSMMAPProvider>(context);
-
+    final userDetailsPro =
+        Provider.of<UserDetailsProvider>(context, listen: false);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -122,11 +124,15 @@ class UserSearch extends StatelessWidget {
                                       .getCoordinatesFromAddress(osmProvider
                                           .pickUpTextController.text);
                                   if (osmProvider.coordinates != null) {
-                                    osmProvider.pickupLatitude =
-                                        osmProvider.coordinates!.latitude;
-                                    osmProvider.pickupLongitude =
-                                        osmProvider.coordinates!.longitude;
-                                    log('Pickup Coordinates : ${osmProvider.pickupLatitude}, ${osmProvider.pickupLongitude}');
+                                    osmProvider.pickUpCoordinates =
+                                        osmProvider.coordinates;
+                                    log('PickUpCoordinates : ${osmProvider.pickUpCoordinates}');
+                                    // osmProvider.pickupLatitude =
+                                    //     osmProvider.coordinates!.latitude;
+                                    // osmProvider.pickupLongitude =
+                                    //     osmProvider.coordinates!.longitude;
+                                    // log('Coordinates : ${osmProvider.coordinates}');
+                                    // log('Pickup Coordinates : ${osmProvider.pickupLatitude}, ${osmProvider.pickupLongitude}');
                                   }
                                   osmProvider.pickUpTextController.text =
                                       osmProvider.controller.listSource[index]
@@ -139,11 +145,15 @@ class UserSearch extends StatelessWidget {
                                       .getCoordinatesFromAddress(osmProvider
                                           .dropOffTextController.text);
                                   if (osmProvider.coordinates != null) {
-                                    osmProvider.dropOffLatitude =
-                                        osmProvider.coordinates!.latitude;
-                                    osmProvider.dropOffLongitude =
-                                        osmProvider.coordinates!.longitude;
-                                    log('DropOff Coordinates : ${osmProvider.dropOffLatitude}, ${osmProvider.dropOffLongitude}');
+                                    osmProvider.dropOffCoordinates =
+                                        osmProvider.coordinates;
+
+                                    log('DropOffCoordinates : ${osmProvider.dropOffCoordinates}');
+                                    // osmProvider.dropOffLatitude =
+                                    //     osmProvider.coordinates!.latitude;
+                                    // osmProvider.dropOffLongitude =
+                                    //     osmProvider.coordinates!.longitude;
+                                    // log('DropOff Coordinates : ${osmProvider.dropOffLatitude}, ${osmProvider.dropOffLongitude}');
                                   }
                                   osmProvider.dropOffTextController.text =
                                       osmProvider.controller.listSource[index]
@@ -184,36 +194,46 @@ class UserSearch extends StatelessWidget {
       ),
       bottomNavigationBar: BottomAppBar(
         elevation: 0,
-        child: ElevatedButton(
-          style: ButtonStyle(
-            overlayColor: MaterialStateProperty.all(Colors.grey),
-            backgroundColor: MaterialStateProperty.all(Colors.black),
-            minimumSize: MaterialStateProperty.all(
-              const Size(50, 40),
-            ),
-          ),
-          onPressed: () {
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(
-                  builder: (context) => const UserChooseVehicle(),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            ElevatedButton(
+              style: ButtonStyle(
+                overlayColor: MaterialStateProperty.all(Colors.grey),
+                backgroundColor: MaterialStateProperty.all(Colors.black),
+                minimumSize: MaterialStateProperty.all(
+                  const Size(50, 40),
                 ),
-                (route) => false);
-          },
-          child: const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                "next",
-                style: TextStyle(
-                    fontFamily: 'SofiaPro', fontSize: 25, color: Colors.white),
               ),
-              Icon(
-                Icons.chevron_right_rounded,
-                size: 30,
-                color: Colors.white,
+              onPressed: () async {
+                log('${osmProvider.pickUpCoordinates!},${osmProvider.dropOffCoordinates}');
+                await userDetailsPro.setRide(osmProvider.pickUpCoordinates!,
+                    osmProvider.dropOffCoordinates!);
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (context) => const UserChooseVehicle(),
+                    ),
+                    (route) => false);
+              },
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    "next",
+                    style: TextStyle(
+                        fontFamily: 'SofiaPro',
+                        fontSize: 25,
+                        color: Colors.white),
+                  ),
+                  Icon(
+                    Icons.chevron_right_rounded,
+                    size: 30,
+                    color: Colors.white,
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
