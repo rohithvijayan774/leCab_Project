@@ -209,6 +209,8 @@ class UserSearch extends StatelessWidget {
                 log('${osmProvider.pickUpCoordinates!},${osmProvider.dropOffCoordinates}');
                 await userDetailsPro.setRide(osmProvider.pickUpCoordinates!,
                     osmProvider.dropOffCoordinates!);
+                // await userDetailsPro.calculateDis();
+                // userDetailsPro.formatDistance();
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
                       builder: (context) => const UserChooseVehicle(),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:lecab/provider/User/user_details_provider.dart';
 import 'package:lecab/provider/User/user_googlemap_provider.dart';
 import 'package:lecab/widget/User/Bottom%20Bar/user_select_vehicle_bottom.dart';
 import 'package:provider/provider.dart';
@@ -10,27 +11,40 @@ class UserChooseVehicle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final googleMapProvider = Provider.of<UserGoogleMapProvider>(context);
+    final userDetailsPro = Provider.of<UserDetailsProvider>(context);
     return Scaffold(
       body: Center(
         child: Stack(
           alignment: Alignment.center,
           children: [
             GoogleMap(
+              padding: EdgeInsets.only(top: 300),
               initialCameraPosition: googleMapProvider.yourLocation,
               mapType: MapType.normal,
-              myLocationButtonEnabled: true,
-              onMapCreated: (controller) {
+              // myLocationButtonEnabled: true,
+              myLocationEnabled: true,
+              zoomGesturesEnabled: true,
+              zoomControlsEnabled: true,
+              onMapCreated: (GoogleMapController controller) {
                 googleMapProvider.googleMapController.complete(controller);
+                googleMapProvider.newGoogleMapController = controller;
+                googleMapProvider.locatePosition();
 
                 // _newGoogleMapController = controller;
               },
               markers: {
-                const Marker(
+                Marker(
                   // icon: BitmapDescriptor.defaultMarkerWithHue(
                   //     BitmapDescriptor.hueAzure),
-                  markerId: MarkerId('Your Location'),
-                  position: LatLng(11.249284377235318, 75.83412108356296),
-                )
+                  markerId: const MarkerId('PickUp Location'),
+                  position: userDetailsPro.pickUpLoc!,
+                ),
+                Marker(
+                  // icon: BitmapDescriptor.defaultMarkerWithHue(
+                  //     BitmapDescriptor.hueAzure),
+                  markerId: const MarkerId('DropOff Location'),
+                  position: userDetailsPro.dropOffLoc!,
+                ),
               },
             ),
             Positioned(
@@ -38,7 +52,7 @@ class UserChooseVehicle extends StatelessWidget {
               left: 10,
               child: SafeArea(
                 child: Container(
-                  decoration:const BoxDecoration(
+                  decoration: const BoxDecoration(
                       shape: BoxShape.circle, color: Colors.black),
                   child: IconButton(
                     onPressed: () {

@@ -30,14 +30,27 @@ class UserAccount extends StatelessWidget {
                         fontWeight: FontWeight.bold),
                   ),
                   //8848463680
-                  CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    radius: 50,
-                    child: Image.asset(
-                      'lib/assets/user.png',
-                      scale: 5,
-                    ),
-                  ),
+                  Consumer<UserDetailsProvider>(builder: (context, value, _) {
+                    return InkWell(
+                      onTap: () async {
+                        await value.selectImage(context);
+                        value.uploadProfilePic();
+                      },
+                      child: value.image == null
+                          ? CircleAvatar(
+                              backgroundColor: Colors.transparent,
+                              radius: 50,
+                              child: Image.asset(
+                                'lib/assets/user.png',
+                                scale: 5,
+                              ),
+                            )
+                          : CircleAvatar(
+                              radius: 50,
+                              backgroundImage: FileImage(value.image!),
+                            ),
+                    );
+                  }),
                 ],
               ),
               const SizedBox(
@@ -152,6 +165,10 @@ class UserAccount extends StatelessWidget {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(onPressed: () async {
+        await userDetailsPro.calculateDis();
+        userDetailsPro.formatDistance();
+      }),
     );
   }
 }

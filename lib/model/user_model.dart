@@ -1,17 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel {
   String uid;
   String firstName;
   String surName;
   String phoneNumber;
-  String createdAt;
+  String? profilePicture;
+
 
   UserModel({
     required this.uid,
     required this.firstName,
     required this.surName,
     required this.phoneNumber,
-    required this.createdAt,
+    this.profilePicture,
+
   });
 
 //from Map
@@ -21,7 +24,8 @@ class UserModel {
       firstName: map['firstName'] ?? '',
       surName: map['surName'] ?? '',
       phoneNumber: map['phoneNumber'] ?? '',
-      createdAt: map['createdAt'] ?? '',
+      profilePicture: map['profilePicture'] ?? '',
+     
     );
   }
 
@@ -32,7 +36,8 @@ class UserModel {
       'firstName': firstName,
       'surName': surName,
       'phoneNumber': phoneNumber,
-      'createdAt': createdAt,
+      'profilePicture': profilePicture,
+    
     };
   }
 }

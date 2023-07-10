@@ -6,10 +6,12 @@ class VehicleSelectionBar extends StatelessWidget {
   late String icon;
   late String vehicleType;
   late double amount;
+  late int distance;
   VehicleSelectionBar({
     required this.icon,
     required this.vehicleType,
     required this.amount,
+    required this.distance,
     super.key,
   });
 
@@ -47,13 +49,27 @@ class VehicleSelectionBar extends StatelessWidget {
                   // fontWeight: FontWeight.bold,
                   color: Colors.black),
             ),
-            Text(
-              '₹$amount',
-              style: const TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 23,
-                  // fontWeight: FontWeight.bold,
-                  color: Colors.black),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '₹$amount',
+                  style: const TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 23,
+                      // fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+                Text(
+                  "$distance km",
+                  style: const TextStyle(
+                      fontFamily: 'SofiaPro',
+                      fontSize: 15,
+
+                      // fontWeight: FontWeight.bold,
+                      color: Colors.black38),
+                ),
+              ],
             ),
           ],
         ),

@@ -1,12 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lecab/Views/User/user_number_validation.dart';
 import 'package:lecab/Views/User/user_otp_verification.dart';
 import 'package:lecab/Views/User/user_starting_page.dart';
@@ -23,6 +27,14 @@ class UserDetailsProvider extends ChangeNotifier {
   String get uid => _uid!;
   UserModel? _userModel;
   UserModel get userModel => _userModel!;
+  File? profilePicture;
+  LatLng? pickUpLoc;
+  LatLng? dropOffLoc;
+  double? pickLat;
+  double? pickLong;
+  double? dropLat;
+  double? dropLong;
+
   UserDetailsProvider() {
     checkSignedIn();
   }
@@ -57,6 +69,7 @@ class UserDetailsProvider extends ChangeNotifier {
   final numberFormKey = GlobalKey<FormState>();
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
 
   Future<void> sendOTP(context) async {
     showDialog(
@@ -127,6 +140,26 @@ class UserDetailsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  //Image Picker
+  Future<File?> pickImage(BuildContext context) async {
+    File? image;
+    try {
+      final pickedImage =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (pickedImage != null) {
+        image = File(pickedImage.path);
+      }
+    } catch (e) {
+      log('$e');
+    }
+    return image;
+  }
+
+  selectImage(context) async {
+    image = await pickImage(context);
+    notifyListeners();
+  }
+
   //Database Operation
   Future<bool> checkExistingUser() async {
     DocumentSnapshot snapshot =
@@ -149,7 +182,6 @@ class UserDetailsProvider extends ChangeNotifier {
       firstName: userFirstNameController.text.trim(),
       surName: userSurNameController.text.trim(),
       phoneNumber: firebaseAuth.currentUser!.phoneNumber!,
-      createdAt: DateTime.now().millisecondsSinceEpoch.toString(),
     );
 
     await firebaseFirestore
@@ -159,33 +191,25 @@ class UserDetailsProvider extends ChangeNotifier {
         .then((value) {
       onSuccess();
     });
-
-    //Get the User's current Location Once
-    // Position initialPosition = await Geolocator.getCurrentPosition(
-    //     desiredAccuracy: LocationAccuracy.high);
-    // _userModel!.userCurrentLocation =
-    //     GeoPoint(initialPosition.latitude, initialPosition.longitude);
-
-    // //Start listening to location updates
-    // StreamSubscription<Position> positionStream = Geolocator.getPositionStream(
-    //         locationSettings:
-    //             const LocationSettings(accuracy: LocationAccuracy.high))
-    //     .listen((Position position) {
-    //   _userModel!.userCurrentLocation =
-    //       GeoPoint(position.latitude, position.longitude);
-    //   firebaseFirestore
-    //       .collection('users')
-    //       .doc(_uid)
-    //       .set(_userModel!.toMap())
-    //       .then((value) {
-    //     log('Location updated in Firebase');
-    //   });
-    // });
-
     notifyListeners();
 
     log('data stored successfully');
   }
+
+  Future<String> storeProfilePic(String ref, File file) async {
+    log('Store Profile function Called');
+    UploadTask uploadTask = firebaseStorage.ref().child(ref).putFile(file);
+    TaskSnapshot snapshot = await uploadTask;
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+    return downloadUrl;
+  }
+
+  uploadProfilePic() async {
+    await storeProfilePic("profilePic/$_uid", profilePicture!);
+    notifyListeners();
+  }
+
+//---------------------------Setup Ride-------------------------------------
 
   setRide(LatLng pickUpCoordinates, LatLng dropOffCoordinates) async {
     log('Ride Setting');
@@ -195,10 +219,22 @@ class UserDetailsProvider extends ChangeNotifier {
     GeoPoint dropOffLocation =
         GeoPoint(dropOffCoordinates.latitude, dropOffCoordinates.longitude);
 
+    pickUpLoc = LatLng(pickUpLocation.latitude, pickUpLocation.longitude);
+    dropOffLoc = LatLng(dropOffLocation.latitude, dropOffLocation.longitude);
+
+    pickLat = pickUpLocation.latitude;
+    pickLong = pickUpLocation.longitude;
+    dropLat = dropOffLocation.latitude;
+    dropLong = dropOffLocation.longitude;
+
+    await calculateDis();
+    formatDistance();
+
     log('2nd step');
     await docRef.update({
       'pickUpLocation': pickUpLocation,
       'dropOffLocation': dropOffLocation,
+      'rideDistance': formattedDistance,
     });
     log('Ride updated successfully');
     notifyListeners();
@@ -209,6 +245,7 @@ class UserDetailsProvider extends ChangeNotifier {
     await docRef.update({
       'pickUpLocation': FieldValue.delete(),
       'dropOffLocation': FieldValue.delete(),
+      'rideDistance': FieldValue.delete(),
     });
   }
 
@@ -223,7 +260,6 @@ class UserDetailsProvider extends ChangeNotifier {
         firstName: snapshot['firstName'],
         surName: snapshot['surName'],
         phoneNumber: snapshot['phoneNumber'],
-        createdAt: snapshot['createdAt'],
       );
       _uid = userModel.uid;
     });
@@ -256,7 +292,7 @@ class UserDetailsProvider extends ChangeNotifier {
   }
 
   //Name Details
-
+  File? image;
   TextEditingController userFirstNameController = TextEditingController();
   TextEditingController userSurNameController = TextEditingController();
   TextEditingController destinationController = TextEditingController();
@@ -359,5 +395,41 @@ class UserDetailsProvider extends ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  //------------------------Calculate Distance-------------------------------
+
+  double? distance;
+  int? formattedDistance;
+
+  double calculateDistance(
+    double startLatitude,
+    double startLongitude,
+    double endLatitude,
+    double endLongitude,
+  ) {
+    return Geolocator.distanceBetween(
+        startLatitude, startLongitude, endLatitude, endLongitude);
+  }
+
+  calculateDis() {
+    distance = calculateDistance(
+      pickLat!,
+      pickLong!,
+      dropLat!,
+      dropLong!,
+    );
+    // log('DIstance $distance');
+  }
+
+  int convertDistance(double distance) {
+    int km = (distance ~/ 1000);
+    int mtr = (distance % 1000).round();
+    return km;
+  }
+
+  formatDistance() {
+    formattedDistance = convertDistance(distance!);
+    log('Distance : $formattedDistance');
   }
 }
