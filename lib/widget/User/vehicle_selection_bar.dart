@@ -5,7 +5,7 @@ import 'package:lecab/Views/User/user_waiting_driver.dart';
 class VehicleSelectionBar extends StatelessWidget {
   late String icon;
   late String vehicleType;
-  late double amount;
+  late int amount;
   late int distance;
   VehicleSelectionBar({
     required this.icon,

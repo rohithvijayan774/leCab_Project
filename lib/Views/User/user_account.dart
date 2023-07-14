@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:lecab/provider/User/bottom_nav_bar_provider.dart';
 import 'package:lecab/provider/User/user_details_provider.dart';
+import 'package:lecab/widget/User/user_image_viewer.dart';
 import 'package:provider/provider.dart';
 
 class UserAccount extends StatelessWidget {
@@ -12,6 +15,7 @@ class UserAccount extends StatelessWidget {
     final userDetailsPro =
         Provider.of<UserDetailsProvider>(context, listen: false);
     final userBottomNavPro = Provider.of<UserBottomNavBarProvider>(context);
+    log('Have pic? ${userDetailsPro.userModel.profilePicture}');
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -29,28 +33,64 @@ class UserAccount extends StatelessWidget {
                         fontSize: 30,
                         fontWeight: FontWeight.bold),
                   ),
-                  //8848463680
-                  Consumer<UserDetailsProvider>(builder: (context, value, _) {
-                    return InkWell(
-                      onTap: () async {
-                        await value.selectImage(context);
-                        value.uploadProfilePic();
-                      },
-                      child: value.image == null
-                          ? CircleAvatar(
-                              backgroundColor: Colors.transparent,
-                              radius: 50,
-                              child: Image.asset(
-                                'lib/assets/user.png',
-                                scale: 5,
+                  Consumer<UserDetailsProvider>(
+                    builder: (context, value, _) {
+                      return Stack(
+                        children: [
+                          InkWell(
+                            onLongPress: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ImageViewer(
+                                      image: value.userModel.profilePicture),
+                                ),
+                              );
+                            },
+                            child: value.userModel.profilePicture == null
+                                ? CircleAvatar(
+                                    backgroundColor: Colors.transparent,
+                                    radius: 50,
+                                    child: Image.asset(
+                                      'lib/assets/user.png',
+                                      scale: 5,
+                                    ),
+                                  )
+                                : CircleAvatar(
+                                    radius: 50,
+                                    backgroundImage: NetworkImage(
+                                        value.userModel.profilePicture!,
+                                        scale: 5),
+                                  ),
+                          ),
+                          Positioned(
+                            bottom: -10,
+                            right: 50,
+                            child: IconButton(
+                              onPressed: () async {
+                                await value.selectImage(context);
+                                await value.uploadProfilePic(
+                                  value.image!,
+                                  () {
+                                    value.saveUserdDataToSP().then(
+                                      (value) {
+                                        userDetailsPro.setSignIn();
+                                      },
+                                    );
+                                  },
+                                );
+                                log('Uplaoded : ${value.userModel.profilePicture!}');
+                              },
+                              icon: const Icon(
+                                Icons.edit,
+                                color: Colors.blue,
                               ),
-                            )
-                          : CircleAvatar(
-                              radius: 50,
-                              backgroundImage: FileImage(value.image!),
                             ),
-                    );
-                  }),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
                 ],
               ),
               const SizedBox(
@@ -145,12 +185,6 @@ class UserAccount extends StatelessWidget {
                 onPressed: () {
                   userDetailsPro.signOut(context);
                   userBottomNavPro.currentIndex = 0;
-                  // userDetailsPro.clearNumberField();
-                  // userDetailsPro.clearNameFields();
-                  // Navigator.of(context).pushAndRemoveUntil(
-                  //     MaterialPageRoute(
-                  //         builder: (ctx1) => const UserStartingPage()),
-                  //     (route) => false);
                 },
                 child: const Text(
                   'SignOut',
@@ -165,10 +199,12 @@ class UserAccount extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () async {
-        await userDetailsPro.calculateDis();
-        userDetailsPro.formatDistance();
-      }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await userDetailsPro.calculateDis();
+          userDetailsPro.formatDistance();
+        },
+      ),
     );
   }
 }

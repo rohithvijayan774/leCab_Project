@@ -26,7 +26,7 @@ class UserChooseVehicle extends StatelessWidget {
               zoomGesturesEnabled: true,
               zoomControlsEnabled: true,
               onMapCreated: (GoogleMapController controller) {
-                googleMapProvider.googleMapController.complete(controller);
+                // googleMapProvider.googleMapController.complete(controller);
                 googleMapProvider.newGoogleMapController = controller;
                 googleMapProvider.locatePosition();
 

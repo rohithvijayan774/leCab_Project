@@ -26,7 +26,7 @@ class UserSelectVehicleBottomApp extends StatelessWidget {
             VehicleSelectionBar(
                 icon: 'lib/assets/rickshaw3D.png',
                 vehicleType: 'Auto',
-                amount: 0,
+                amount: userDetailsPro.autoFare,
                 distance: userDetailsPro.formattedDistance!),
             const SizedBox(
               height: 20,
@@ -34,7 +34,7 @@ class UserSelectVehicleBottomApp extends StatelessWidget {
             VehicleSelectionBar(
               icon: 'lib/assets/suv3D.png',
               vehicleType: 'SUV',
-              amount: 0,
+              amount: userDetailsPro.suvFare,
               distance: userDetailsPro.formattedDistance!,
             ),
             const SizedBox(
@@ -43,7 +43,7 @@ class UserSelectVehicleBottomApp extends StatelessWidget {
             VehicleSelectionBar(
               icon: 'lib/assets/car.png',
               vehicleType: 'Car',
-              amount: 0,
+              amount: userDetailsPro.carFare,
               distance: userDetailsPro.formattedDistance!,
             ),
           ],

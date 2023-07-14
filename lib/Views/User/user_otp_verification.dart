@@ -35,7 +35,7 @@ class UserOTPVerification extends StatelessWidget {
               children: [
                 Text(
                   "Enter the OTP send to the number ${userDetailsPro.numberController.text}",
-                  style: const TextStyle(fontSize: 20),
+                  style: const TextStyle(fontSize: 20, fontFamily: 'SofiaPro'),
                 ),
                 const SizedBox(
                   height: 20,

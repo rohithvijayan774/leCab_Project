@@ -21,7 +21,6 @@ class UserGoogleMapProvider extends ChangeNotifier {
 
     currentPosition = position;
 
-    ;
     LatLng latLngPosition = LatLng(position.latitude, position.longitude);
 
     CameraPosition cameraPosition =
@@ -30,11 +29,11 @@ class UserGoogleMapProvider extends ChangeNotifier {
     newGoogleMapController!
         .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
 
-    log("${latLngPosition}");
+    log("$latLngPosition");
     notifyListeners();
   }
 
-  CameraPosition yourLocation =  CameraPosition(
+  CameraPosition yourLocation = CameraPosition(
     target: LatLng(0.0, 0.0),
     zoom: 18,
   );

@@ -140,9 +140,10 @@ class UserDetailsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //Image Picker
+  //--------------------Image Picker-------------------------------------------
+
+  File? image;
   Future<File?> pickImage(BuildContext context) async {
-    File? image;
     try {
       final pickedImage =
           await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -160,7 +161,32 @@ class UserDetailsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //Database Operation
+  Future<String> storeProfilePic(String ref, File file) async {
+    log('Store Profile function Called');
+    UploadTask uploadTask = firebaseStorage.ref().child(ref).putFile(file);
+    TaskSnapshot snapshot = await uploadTask;
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+    log(downloadUrl);
+
+    log('Profile pic stored to storage');
+    return downloadUrl;
+  }
+
+  uploadProfilePic(File profilePic, Function onSuccess) async {
+    await storeProfilePic("profilePic/$_uid", profilePic).then((value) async {
+      log(value);
+      userModel.profilePicture = value;
+
+      DocumentReference docRef =
+          firebaseFirestore.collection('users').doc(_uid);
+      docRef.update({'profilePicture': value});
+    });
+    _userModel = userModel;
+    log('profile pic stored to database');
+    notifyListeners();
+  }
+
+  //-------------------------Database Operation--------------------------
   Future<bool> checkExistingUser() async {
     DocumentSnapshot snapshot =
         await firebaseFirestore.collection('users').doc(_uid).get();
@@ -182,6 +208,7 @@ class UserDetailsProvider extends ChangeNotifier {
       firstName: userFirstNameController.text.trim(),
       surName: userSurNameController.text.trim(),
       phoneNumber: firebaseAuth.currentUser!.phoneNumber!,
+      profilePicture: image.toString(),
     );
 
     await firebaseFirestore
@@ -194,19 +221,6 @@ class UserDetailsProvider extends ChangeNotifier {
     notifyListeners();
 
     log('data stored successfully');
-  }
-
-  Future<String> storeProfilePic(String ref, File file) async {
-    log('Store Profile function Called');
-    UploadTask uploadTask = firebaseStorage.ref().child(ref).putFile(file);
-    TaskSnapshot snapshot = await uploadTask;
-    String downloadUrl = await snapshot.ref.getDownloadURL();
-    return downloadUrl;
-  }
-
-  uploadProfilePic() async {
-    await storeProfilePic("profilePic/$_uid", profilePicture!);
-    notifyListeners();
   }
 
 //---------------------------Setup Ride-------------------------------------
@@ -228,8 +242,10 @@ class UserDetailsProvider extends ChangeNotifier {
     dropLong = dropOffLocation.longitude;
 
     await calculateDis();
-    formatDistance();
-
+    await formatDistance();
+    calculateAutoFare();
+    calculateCarFare();
+    calculateSUVFare();
     log('2nd step');
     await docRef.update({
       'pickUpLocation': pickUpLocation,
@@ -256,11 +272,11 @@ class UserDetailsProvider extends ChangeNotifier {
         .get()
         .then((DocumentSnapshot snapshot) {
       _userModel = UserModel(
-        uid: uid,
-        firstName: snapshot['firstName'],
-        surName: snapshot['surName'],
-        phoneNumber: snapshot['phoneNumber'],
-      );
+          uid: uid,
+          firstName: snapshot['firstName'],
+          surName: snapshot['surName'],
+          phoneNumber: snapshot['phoneNumber'],
+          profilePicture: snapshot['profilePicture']);
       _uid = userModel.uid;
     });
     notifyListeners();
@@ -292,7 +308,7 @@ class UserDetailsProvider extends ChangeNotifier {
   }
 
   //Name Details
-  File? image;
+  // File? image;
   TextEditingController userFirstNameController = TextEditingController();
   TextEditingController userSurNameController = TextEditingController();
   TextEditingController destinationController = TextEditingController();
@@ -431,5 +447,46 @@ class UserDetailsProvider extends ChangeNotifier {
   formatDistance() {
     formattedDistance = convertDistance(distance!);
     log('Distance : $formattedDistance');
+  }
+
+  //----------------------Taxi fare------------------------------------
+  int autoFare = 30;
+  int minAutoDist = 2;
+  int carFare = 200;
+  int minCarDist = 5;
+  int suvFare = 225;
+  int minSUVDist = 5;
+
+  int calculateAutoFare() {
+    if (formattedDistance! > 0 && formattedDistance! < minAutoDist) {
+      return autoFare;
+    } else if (formattedDistance! >= minAutoDist) {
+      for (var i = minAutoDist; i < formattedDistance!; i++) {
+        autoFare = autoFare + 15;
+      }
+    }
+    return autoFare;
+  }
+
+  int calculateCarFare() {
+    if (formattedDistance! > 0 && formattedDistance! < minCarDist) {
+      return carFare;
+    } else if (formattedDistance! >= minCarDist) {
+      for (var i = minCarDist; i < formattedDistance!; i++) {
+        carFare = carFare + 18;
+      }
+    }
+    return carFare;
+  }
+
+  int calculateSUVFare() {
+    if (formattedDistance! > 0 && formattedDistance! < minSUVDist) {
+      return suvFare;
+    } else if (formattedDistance! >= minSUVDist) {
+      for (var i = minSUVDist; i < formattedDistance!; i++) {
+        suvFare = suvFare + 20;
+      }
+    }
+    return suvFare;
   }
 }

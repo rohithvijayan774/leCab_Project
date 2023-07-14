@@ -16,13 +16,15 @@ class UserDriverInfo extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             GoogleMap(
+              padding: EdgeInsets.only(top: 300),
               initialCameraPosition: googleMapProvider.yourLocation,
               mapType: MapType.normal,
               myLocationButtonEnabled: true,
+              myLocationEnabled: true,
               onMapCreated: (controller) {
-                googleMapProvider.googleMapController.complete(controller);
-
-                // _newGoogleMapController = controller;
+                // googleMapProvider.googleMapController.complete(controller);
+                googleMapProvider.newGoogleMapController = controller;
+                googleMapProvider.locatePosition();
               },
               markers: {
                 const Marker(

@@ -17,11 +17,15 @@ class UserWaitingDriver extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             GoogleMap(
+              padding: EdgeInsets.only(top: 400),
               initialCameraPosition: googleMapProvider.yourLocation,
               mapType: MapType.normal,
               myLocationButtonEnabled: true,
+              myLocationEnabled: true,
               onMapCreated: (controller) {
-                googleMapProvider.googleMapController.complete(controller);
+                // googleMapProvider.googleMapController.complete(controller);
+                googleMapProvider.newGoogleMapController = controller;
+                googleMapProvider.locatePosition();
 
                 // _newGoogleMapController = controller;
               },
@@ -36,8 +40,8 @@ class UserWaitingDriver extends StatelessWidget {
                   draggable: true,
                   icon: BitmapDescriptor.defaultMarkerWithHue(
                       BitmapDescriptor.hueYellow),
-                  markerId:const MarkerId('Driver Location'),
-                  position:const LatLng(11.249753973368229, 75.83456813073674),
+                  markerId: const MarkerId('Driver Location'),
+                  position: const LatLng(11.249753973368229, 75.83456813073674),
                 )
               },
             ),
