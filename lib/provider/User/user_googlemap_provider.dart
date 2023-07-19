@@ -33,7 +33,7 @@ class UserGoogleMapProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  CameraPosition yourLocation = CameraPosition(
+  CameraPosition yourLocation = const CameraPosition(
     target: LatLng(0.0, 0.0),
     zoom: 18,
   );

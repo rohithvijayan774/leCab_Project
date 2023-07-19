@@ -1,12 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:lecab/Views/splash_screen.dart';
-import 'package:lecab/provider/User/auth_provider.dart';
 import 'package:lecab/provider/User/bottom_nav_bar_provider.dart';
 import 'package:lecab/provider/User/osm_map_provider.dart';
 import 'package:lecab/provider/User/user_details_provider.dart';
 import 'package:lecab/provider/User/user_googlemap_provider.dart';
-import 'package:lecab/provider/splash_screen_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() async {

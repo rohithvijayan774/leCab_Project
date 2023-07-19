@@ -13,8 +13,8 @@ class UserOTPVerification extends StatelessWidget {
   Widget build(BuildContext context) {
     String? otpCode;
     final userDetailsPro = Provider.of<UserDetailsProvider>(context);
-    final userDetailsProLF =
-        Provider.of<UserDetailsProvider>(context, listen: false);
+    // final userDetailsProLF =
+    //     Provider.of<UserDetailsProvider>(context, listen: false);
     // final defaultPinTheme = PinTheme(
     //     width: 56,
     //     height: 20,

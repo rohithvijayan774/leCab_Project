@@ -143,12 +143,15 @@ class UserDetailsProvider extends ChangeNotifier {
   //--------------------Image Picker-------------------------------------------
 
   File? image;
+  File? fileName;
   Future<File?> pickImage(BuildContext context) async {
     try {
       final pickedImage =
           await ImagePicker().pickImage(source: ImageSource.gallery);
       if (pickedImage != null) {
         image = File(pickedImage.path);
+        fileName = File(pickedImage.name);
+        log('$fileName');
       }
     } catch (e) {
       log('$e');
@@ -173,7 +176,8 @@ class UserDetailsProvider extends ChangeNotifier {
   }
 
   uploadProfilePic(File profilePic, Function onSuccess) async {
-    await storeProfilePic("profilePic/$_uid", profilePic).then((value) async {
+    await storeProfilePic("UsersProfilePic/$_uid", profilePic)
+        .then((value) async {
       log(value);
       userModel.profilePicture = value;
 
@@ -347,7 +351,8 @@ class UserDetailsProvider extends ChangeNotifier {
             ),
             TextButton(
               onPressed: () async {
-                await clearLocalData();
+                _isSignedIn = false;
+                // await clearLocalData();
                 clearNameFields();
                 clearNumberField();
                 Navigator.of(context).pushAndRemoveUntil(
@@ -440,7 +445,7 @@ class UserDetailsProvider extends ChangeNotifier {
 
   int convertDistance(double distance) {
     int km = (distance ~/ 1000);
-    int mtr = (distance % 1000).round();
+    // int mtr = (distance % 1000).round();
     return km;
   }
 
