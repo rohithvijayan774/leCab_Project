@@ -1,4 +1,4 @@
-
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 
 class UserModel {
   String uid;
@@ -7,14 +7,12 @@ class UserModel {
   String phoneNumber;
   String? profilePicture;
 
-
   UserModel({
     required this.uid,
     required this.firstName,
     required this.surName,
     required this.phoneNumber,
     this.profilePicture,
-
   });
 
 //from Map
@@ -25,7 +23,6 @@ class UserModel {
       surName: map['surName'] ?? '',
       phoneNumber: map['phoneNumber'] ?? '',
       profilePicture: map['profilePicture'] ?? '',
-     
     );
   }
 
@@ -37,7 +34,6 @@ class UserModel {
       'surName': surName,
       'phoneNumber': phoneNumber,
       'profilePicture': profilePicture,
-    
     };
   }
 }

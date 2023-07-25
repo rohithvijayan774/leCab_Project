@@ -212,7 +212,7 @@ class UserDetailsProvider extends ChangeNotifier {
       firstName: userFirstNameController.text.trim(),
       surName: userSurNameController.text.trim(),
       phoneNumber: firebaseAuth.currentUser!.phoneNumber!,
-      profilePicture: image.toString(),
+      // profilePicture: image.toString(),
     );
 
     await firebaseFirestore
@@ -225,6 +225,20 @@ class UserDetailsProvider extends ChangeNotifier {
     notifyListeners();
 
     log('data stored successfully');
+  }
+
+//---------------------------Store User Current Location---------------------
+
+  storeUserCurrentLocation() async {
+    DocumentReference docRef = firebaseFirestore.collection('users').doc(_uid);
+
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    GeoPoint latLngPosition = GeoPoint(position.latitude, position.longitude);
+
+    await docRef.update({'userCurrentLocation': latLngPosition});
+    print('User current location stored');
+    notifyListeners();
   }
 
 //---------------------------Setup Ride-------------------------------------
@@ -399,8 +413,9 @@ class UserDetailsProvider extends ChangeNotifier {
   gotoNextPage(context) async {
     await Future.delayed(const Duration(seconds: 3));
     if (isSignedIn == true) {
-      await getDataFromSP().whenComplete(
-        () => Navigator.push(
+      await getDataFromSP();
+      await getDataFromFirestore().then(
+        (value) => Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => const UserBottomNavBar(),

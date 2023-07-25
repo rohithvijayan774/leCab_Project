@@ -12,14 +12,14 @@ class UserGoogleMapProvider extends ChangeNotifier {
   Position? currentPosition;
   var geoLocator = Geolocator();
   GoogleMapController? newGoogleMapController;
-  // LatLng? _latLngPosition;
+  LatLng? _latLngPosition;
   // LatLng get latLngPosition => _latLngPosition!;
 
   locatePosition() async {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
 
-    currentPosition = position;
+    // currentPosition = position;
 
     LatLng latLngPosition = LatLng(position.latitude, position.longitude);
 
@@ -28,8 +28,9 @@ class UserGoogleMapProvider extends ChangeNotifier {
 
     newGoogleMapController!
         .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+    _latLngPosition = latLngPosition;
 
-    log("$latLngPosition");
+    log("$_latLngPosition");
     notifyListeners();
   }
 

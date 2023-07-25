@@ -59,9 +59,7 @@ class UserStartingPage extends StatelessWidget {
                           ));
                         }
 
-                        // Navigator.of(context).push(MaterialPageRoute(
-                        //   builder: (context) => const UserBottomNavBar(),
-                        // ));
+                       
                       },
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

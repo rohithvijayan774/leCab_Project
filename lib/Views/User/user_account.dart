@@ -48,19 +48,20 @@ class UserAccount extends StatelessWidget {
                               );
                             },
                             child: value.userModel.profilePicture == null
-                                ? CircleAvatar(
+                                ? const CircleAvatar(
                                     backgroundColor: Colors.transparent,
                                     radius: 50,
-                                    child: Image.asset(
+                                    backgroundImage: AssetImage(
                                       'lib/assets/user.png',
-                                      scale: 5,
                                     ),
                                   )
                                 : CircleAvatar(
                                     radius: 50,
+                                    // backgroundColor: Colors.black,
                                     backgroundImage: NetworkImage(
-                                        value.userModel.profilePicture!,
-                                        scale: 5),
+                                      value.userModel.profilePicture!,
+                                      scale: 5,
+                                    ),
                                   ),
                           ),
                           Positioned(
@@ -199,12 +200,12 @@ class UserAccount extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await userDetailsPro.calculateDis();
-          userDetailsPro.formatDistance();
-        },
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () async {
+      //     await userDetailsPro.calculateDis();
+      //     userDetailsPro.formatDistance();
+      //   },
+      // ),
     );
   }
 }
