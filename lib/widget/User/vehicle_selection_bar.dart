@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:lecab/Views/User/user_waiting_driver.dart';
+import 'package:lecab/provider/User/user_details_provider.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class VehicleSelectionBar extends StatelessWidget {
-  late String icon;
-  late String vehicleType;
-  late int amount;
-  late int distance;
-  VehicleSelectionBar({
+  final String icon;
+  final String vehicleType;
+  final int amount;
+  final int distance;
+
+  const VehicleSelectionBar({
     required this.icon,
     required this.vehicleType,
     required this.amount,
@@ -17,6 +20,8 @@ class VehicleSelectionBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userDetailsPro =
+        Provider.of<UserDetailsProvider>(context, listen: false);
     return SizedBox(
       width: double.infinity,
       height: 80,
@@ -27,12 +32,14 @@ class VehicleSelectionBar extends StatelessWidget {
           elevation: const MaterialStatePropertyAll(0),
           backgroundColor: MaterialStatePropertyAll(Colors.grey.shade200),
         ),
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const UserWaitingDriver(),
-            ),
-          );
+        onPressed: () async {
+          userDetailsPro.updateSelectedVehicle(vehicleType,amount).then(
+                (value) => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const UserWaitingDriver(),
+                  ),
+                ),
+              );
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

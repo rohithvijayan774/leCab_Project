@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:lecab/provider/User/user_details_provider.dart';
 import 'package:lecab/widget/User/Bottom%20Bar/user_activity_bar.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class UserActivity extends StatelessWidget {
@@ -9,15 +10,17 @@ class UserActivity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> dropOff = [
-      "HiLite Mall",
-      "Railwaystation 4th Platform Road",
-      "SM Street, Palayam, Kozhikode, Kerala",
-      "Cyberpark Kozhikode"
-    ];
-    dateTime = DateTime.now();
-    String date = DateFormat('dd MMM').format(dateTime!);
-    String time = DateFormat('h:mm a').format(dateTime!).toLowerCase();
+    // final userDetailsPro =
+    //     Provider.of<UserDetailsProvider>(context, listen: false);
+    // List<String> dropOff = [
+    //   "HiLite Mall",
+    //   "Railwaystation 4th Platform Road",
+    //   "SM Street, Palayam, Kozhikode, Kerala",
+    //   "Cyberpark Kozhikode"
+    // ];
+    // dateTime = DateTime.now();
+    // String date = DateFormat('dd MMM').format(dateTime!);
+    // String time = DateFormat('h:mm a').format(dateTime!).toLowerCase();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -36,22 +39,28 @@ class UserActivity extends StatelessWidget {
           ),
         ),
       ),
-      body: ListView.separated(
-          itemBuilder: (context, index) {
-            return UserActivityBar(
-              bookedDate: date,
-              bookedTime: time,
-              dropOffLoc: dropOff[index],
-            );
-          },
-          separatorBuilder: (context, index) {
-            return Divider(
-              color: Colors.grey.shade300,
-              endIndent: 25,
-              indent: 25,
-            );
-          },
-          itemCount: dropOff.length),
+      body: Consumer<UserDetailsProvider>(builder: (context, value, _) {
+        return value.userModel.dropOffPlaceNameList.isEmpty
+            ? const Center(
+                child: Text('No Activity'),
+              )
+            : ListView.separated(
+                itemBuilder: (context, index) {
+                  return UserActivityBar(
+                    bookedDate: 'value.',
+                    bookedTime: 'value.',
+                    dropOffLoc: value.userModel.dropOffPlaceNameList[index],
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return Divider(
+                    color: Colors.grey.shade300,
+                    endIndent: 25,
+                    indent: 25,
+                  );
+                },
+                itemCount: value.userModel.dropOffPlaceNameList.length);
+      }),
     );
   }
 }

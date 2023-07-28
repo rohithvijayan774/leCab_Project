@@ -66,4 +66,10 @@ class OSMMAPProvider extends ChangeNotifier {
     }
     return null;
   }
+
+  clearTextFields() {
+    pickUpTextController.clear();
+    dropOffTextController.clear();
+    notifyListeners();
+  }
 }

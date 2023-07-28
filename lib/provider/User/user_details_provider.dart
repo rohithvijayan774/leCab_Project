@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:lecab/Views/User/user_number_validation.dart';
 import 'package:lecab/Views/User/user_otp_verification.dart';
 import 'package:lecab/Views/User/user_starting_page.dart';
@@ -34,9 +35,15 @@ class UserDetailsProvider extends ChangeNotifier {
   double? pickLong;
   double? dropLat;
   double? dropLong;
+  DateTime? dateTime;
+  String? date;
+  String? time;
 
   UserDetailsProvider() {
     checkSignedIn();
+    dateTime = DateTime.now();
+    date = DateFormat('dd MMM').format(dateTime!);
+    time = DateFormat('h:mm a').format(dateTime!).toLowerCase();
   }
 
   Country selectedCountry = Country(
@@ -212,6 +219,8 @@ class UserDetailsProvider extends ChangeNotifier {
       firstName: userFirstNameController.text.trim(),
       surName: userSurNameController.text.trim(),
       phoneNumber: firebaseAuth.currentUser!.phoneNumber!,
+      pickUpPlaceNameList: [], dropOffPlaceAddressList: [],
+      dropOffPlaceNameList: [], pickUpPlaceAddressList: [],
       // profilePicture: image.toString(),
     );
 
@@ -242,14 +251,30 @@ class UserDetailsProvider extends ChangeNotifier {
   }
 
 //---------------------------Setup Ride-------------------------------------
+  String? pickUpPlace;
+  String? dropOffPlace;
+  String? pickUpAddress;
+  String? dropOffAddress;
+  // DateTime? dateTime;
 
-  setRide(LatLng pickUpCoordinates, LatLng dropOffCoordinates) async {
+  setRide(
+      LatLng pickUpCoordinates,
+      LatLng dropOffCoordinates,
+      String pickUpPlaceName,
+      String dropOffPlaceName,
+      String pickUpPlaceAddress,
+      String dropOffPlaceAddress) async {
     log('Ride Setting');
     DocumentReference docRef = firebaseFirestore.collection('users').doc(_uid);
     GeoPoint pickUpLocation =
         GeoPoint(pickUpCoordinates.latitude, pickUpCoordinates.longitude);
     GeoPoint dropOffLocation =
         GeoPoint(dropOffCoordinates.latitude, dropOffCoordinates.longitude);
+
+    pickUpPlace = pickUpPlaceName;
+    dropOffPlace = dropOffPlaceName;
+    pickUpAddress = pickUpPlaceAddress;
+    dropOffAddress = dropOffPlaceAddress;
 
     pickUpLoc = LatLng(pickUpLocation.latitude, pickUpLocation.longitude);
     dropOffLoc = LatLng(dropOffLocation.latitude, dropOffLocation.longitude);
@@ -266,21 +291,40 @@ class UserDetailsProvider extends ChangeNotifier {
     calculateSUVFare();
     log('2nd step');
     await docRef.update({
-      'pickUpLocation': pickUpLocation,
-      'dropOffLocation': dropOffLocation,
+      'pickUpCoordinates': pickUpLocation,
+      'dropOffCoordinates': dropOffLocation,
       'rideDistance': formattedDistance,
+      'pickUpPlaceName': pickUpPlaceName,
+      'dropOffPlaceName': dropOffPlaceName,
+      'pickUpPlaceAddress': pickUpAddress,
+      'dropOffPlaceAddress': dropOffAddress,
+      'rideDate': date,
+      'rideTime': time,
     });
     log('Ride updated successfully');
     notifyListeners();
   }
 
-  deleteRoute() async {
+  Future deleteRoute() async {
     DocumentReference docRef = firebaseFirestore.collection('users').doc(_uid);
+
     await docRef.update({
-      'pickUpLocation': FieldValue.delete(),
-      'dropOffLocation': FieldValue.delete(),
-      'rideDistance': FieldValue.delete(),
+      'pickUpCoordinates': null,
+      'dropOffCoordinates': null,
+      'rideDistance': null,
+      'pickUpPlaceName': null,
+      'dropOffPlaceName': null,
+      'dropOffPlaceAddress': null,
+      'pickUpPlaceAddress': null,
+      'rideDate': null,
+      'rideTime': null,
+      'selectedVehicle': null,
+      'cabFare': null,
+      'isBooked': false,
     });
+    resetCabFare();
+    resetDistance();
+    notifyListeners();
   }
 
   Future getDataFromFirestore() async {
@@ -290,11 +334,23 @@ class UserDetailsProvider extends ChangeNotifier {
         .get()
         .then((DocumentSnapshot snapshot) {
       _userModel = UserModel(
-          uid: uid,
-          firstName: snapshot['firstName'],
-          surName: snapshot['surName'],
-          phoneNumber: snapshot['phoneNumber'],
-          profilePicture: snapshot['profilePicture']);
+        uid: uid,
+        firstName: snapshot['firstName'],
+        surName: snapshot['surName'],
+        phoneNumber: snapshot['phoneNumber'],
+        profilePicture: snapshot['profilePicture'],
+        dropOffPlaceAddressList:
+            (snapshot['dropOffPlaceAddressList'] as List<dynamic>)
+                .cast<String>(),
+        dropOffPlaceNameList:
+            (snapshot['dropOffPlaceNameList'] as List<dynamic>).cast<String>(),
+        pickUpPlaceAddressList:
+            (snapshot['pickUpPlaceAddressList'] as List<dynamic>)
+                .cast<String>(),
+        pickUpPlaceNameList:
+            (snapshot['pickUpPlaceNameList'] as List<dynamic>).cast<String>(),
+      );
+
       _uid = userModel.uid;
     });
     notifyListeners();
@@ -312,12 +368,14 @@ class UserDetailsProvider extends ChangeNotifier {
     String data = sharedPref.getString('user_model') ?? "";
     _userModel = UserModel.fromMap(jsonDecode(data));
     _uid = _userModel!.uid;
+    notifyListeners();
   }
 
   //clear local data
   Future<void> clearLocalData() async {
     SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
     await sharedPrefs.clear();
+    notifyListeners();
   }
 
   clearNumberField() {
@@ -469,6 +527,12 @@ class UserDetailsProvider extends ChangeNotifier {
     log('Distance : $formattedDistance');
   }
 
+  resetDistance() {
+    distance = 0;
+    formattedDistance = 0;
+    notifyListeners();
+  }
+
   //----------------------Taxi fare------------------------------------
   int autoFare = 30;
   int minAutoDist = 2;
@@ -508,5 +572,73 @@ class UserDetailsProvider extends ChangeNotifier {
       }
     }
     return suvFare;
+  }
+
+  resetCabFare() {
+    autoFare = 30;
+    minAutoDist = 2;
+    carFare = 200;
+    minCarDist = 5;
+    suvFare = 225;
+    minSUVDist = 5;
+    notifyListeners();
+  }
+
+  Future<void> updateSelectedVehicle(String choosenCab, int cabFare) async {
+    DocumentReference docRef = firebaseFirestore.collection('users').doc(_uid);
+    await docRef.update({
+      'selectedVehicle': choosenCab,
+      'cabFare': cabFare,
+      'isBooked': true,
+    });
+
+    notifyListeners();
+  }
+
+  // List<String> destinationsNameList = [];
+  // List<String> pickUpPlaceNameList = [];
+  // List<String> destinationsAddressList = [];
+  // List<String> pickUpPlaceAddressList = [];
+  // List<String> rideDateList = [];
+  // List<String> rideTimeList = [];
+
+  // Future addToHistoryList() async {
+  //   destinationsNameList.insert(0, dropOffPlace!);
+  //   destinationsAddressList.insert(0, dropOffAddress!);
+  //   pickUpPlaceNameList.insert(0, pickUpPlace!);
+  //   pickUpPlaceAddressList.insert(0, pickUpAddress!);
+  //   rideDateList.insert(0, date!);
+  //   rideTimeList.insert(0, time!);
+
+  //   log('history list added');
+
+  //   notifyListeners();
+  // }
+
+  Future<void> addDataToLists() async {
+    try {
+      DocumentSnapshot userSnapshot =
+          await firebaseFirestore.collection('users').doc(_uid).get();
+      if (!userSnapshot.exists) {
+        return;
+      }
+      UserModel user =
+          UserModel.fromMap(userSnapshot.data() as Map<String, dynamic>);
+      user.pickUpPlaceNameList.insert(0, pickUpPlace!);
+      user.pickUpPlaceAddressList.insert(0, pickUpAddress!);
+      user.dropOffPlaceNameList.insert(0, dropOffPlace!);
+      user.dropOffPlaceAddressList.insert(0, dropOffAddress!);
+
+      Map<String, dynamic> updatedUserData = user.toMap();
+
+      await firebaseFirestore
+          .collection('users')
+          .doc(_uid)
+          .update(updatedUserData);
+      log('User Data updated successfully');
+    } catch (e) {
+      log('Error : $e');
+    }
+    notifyListeners();
   }
 }

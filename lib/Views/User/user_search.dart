@@ -118,7 +118,7 @@ class UserSearch extends StatelessWidget {
                           itemBuilder: (context, index) {
                             return ListTile(
                               onTap: () async {
-                                //Pickup TextField
+                                //Pickup TextField------------------------------
                                 if (osmProvider.firstFocusNode.hasFocus) {
                                   osmProvider.coordinates = await osmProviderLF
                                       .getCoordinatesFromAddress(osmProvider
@@ -127,18 +127,20 @@ class UserSearch extends StatelessWidget {
                                     osmProvider.pickUpCoordinates =
                                         osmProvider.coordinates;
                                     log('PickUpCoordinates : ${osmProvider.pickUpCoordinates}');
-                                    // osmProvider.pickupLatitude =
-                                    //     osmProvider.coordinates!.latitude;
-                                    // osmProvider.pickupLongitude =
-                                    //     osmProvider.coordinates!.longitude;
-                                    // log('Coordinates : ${osmProvider.coordinates}');
-                                    // log('Pickup Coordinates : ${osmProvider.pickupLatitude}, ${osmProvider.pickupLongitude}');
                                   }
                                   osmProvider.pickUpTextController.text =
                                       osmProvider.controller.listSource[index]
                                           .address!.name
                                           .toString();
-                                  //DropOff TextField
+                                  userDetailsPro.pickUpPlace = osmProvider
+                                      .controller
+                                      .listSource[index]
+                                      .address!
+                                      .name;
+                                  userDetailsPro.pickUpAddress = osmProvider
+                                      .controller.listSource[index].address
+                                      .toString();
+                                  //DropOff TextField---------------------------
                                 } else if (osmProvider
                                     .secondFocusNode.hasFocus) {
                                   osmProvider.coordinates = await osmProviderLF
@@ -149,16 +151,19 @@ class UserSearch extends StatelessWidget {
                                         osmProvider.coordinates;
 
                                     log('DropOffCoordinates : ${osmProvider.dropOffCoordinates}');
-                                    // osmProvider.dropOffLatitude =
-                                    //     osmProvider.coordinates!.latitude;
-                                    // osmProvider.dropOffLongitude =
-                                    //     osmProvider.coordinates!.longitude;
-                                    // log('DropOff Coordinates : ${osmProvider.dropOffLatitude}, ${osmProvider.dropOffLongitude}');
                                   }
                                   osmProvider.dropOffTextController.text =
                                       osmProvider.controller.listSource[index]
                                           .address!.name
                                           .toString();
+                                  userDetailsPro.dropOffPlace = osmProvider
+                                      .controller
+                                      .listSource[index]
+                                      .address!
+                                      .name;
+                                  userDetailsPro.dropOffAddress = osmProvider
+                                      .controller.listSource[index].address
+                                      .toString();
                                 }
                               },
                               leading: const Icon(Icons.location_pin),
@@ -207,8 +212,16 @@ class UserSearch extends StatelessWidget {
               ),
               onPressed: () async {
                 log('${osmProvider.pickUpCoordinates!},${osmProvider.dropOffCoordinates}');
-                await userDetailsPro.setRide(osmProvider.pickUpCoordinates!,
-                    osmProvider.dropOffCoordinates!);
+                log('Pickup Place: ${osmProvider.pickUpTextController.text}');
+                log('DropOff Place: ${osmProvider.dropOffTextController.text}');
+                await userDetailsPro.setRide(
+                  osmProvider.pickUpCoordinates!,
+                  osmProvider.dropOffCoordinates!,
+                  userDetailsPro.pickUpPlace!,
+                  userDetailsPro.dropOffPlace!,
+                  userDetailsPro.pickUpAddress!,
+                  userDetailsPro.dropOffAddress!,
+                );
                 // await userDetailsPro.calculateDis();
                 // userDetailsPro.formatDistance();
                 Navigator.of(context).pushAndRemoveUntil(

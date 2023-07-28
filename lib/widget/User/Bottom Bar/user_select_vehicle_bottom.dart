@@ -8,7 +8,8 @@ class UserSelectVehicleBottomApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userDetailsPro = Provider.of<UserDetailsProvider>(context);
+    final userDetailsPro =
+        Provider.of<UserDetailsProvider>(context, listen: false);
     return Container(
       height: MediaQuery.of(context).size.height / 2.5,
       decoration: const BoxDecoration(
