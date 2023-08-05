@@ -25,6 +25,9 @@ class UserModel {
   List<String> pickUpPlaceAddressList = [];
   List<String> dropOffPlaceNameList = [];
   List<String> dropOffPlaceAddressList = [];
+  List<String> rideDateList = [];
+  List<String> ridetimeList = [];
+  String? selectedDriver;
 
   UserModel({
     required this.uid,
@@ -49,6 +52,9 @@ class UserModel {
     required this.pickUpPlaceAddressList,
     required this.dropOffPlaceAddressList,
     required this.dropOffPlaceNameList,
+    required this.rideDateList,
+    required this.ridetimeList,
+    this.selectedDriver,
   });
 
 //from Map
@@ -58,7 +64,7 @@ class UserModel {
       firstName: map['firstName'] ?? '',
       surName: map['surName'] ?? '',
       phoneNumber: map['phoneNumber'] ?? '',
-      profilePicture: map['profilePicture'] ?? '',
+      profilePicture: map['profilePicture'],
       pickUpCoordinates: map['pickUpCoordinates'],
       dropOffCoordinates: map['dropOffCoordinates'],
       rideDistance: map['rideDistance'],
@@ -71,6 +77,7 @@ class UserModel {
       rideTime: map['rideTime'] ?? '',
       cabFare: map['cabFare'],
       selectedVehicle: map['selectedVehicle'] ?? '',
+      selectedDriver: map['selectedDriver'],
       isBooked: map['isBooked'],
       pickUpPlaceNameList: (map['pickUpPlaceNameList'] as List<dynamic>?)!
           .map((item) => item.toString())
@@ -89,6 +96,14 @@ class UserModel {
               .map((item) => item.toString())
               .toList()
               .cast<String>(),
+      rideDateList: (map['rideDateList'] as List<dynamic>?)!
+          .map((item) => item.toString())
+          .toList()
+          .cast<String>(),
+      ridetimeList: (map['ridetimeList'] as List<dynamic>?)!
+          .map((item) => item.toString())
+          .toList()
+          .cast<String>(),
     );
   }
 
@@ -117,6 +132,9 @@ class UserModel {
       'pickUpPlaceAddressList': pickUpPlaceAddressList,
       'dropOffPlaceNameList': dropOffPlaceNameList,
       'dropOffPlaceAddressList': dropOffPlaceAddressList,
+      'rideDateList': rideDateList,
+      'ridetimeList': ridetimeList,
+      'selectedDriver': selectedDriver,
     };
   }
 }

@@ -17,6 +17,7 @@ import 'package:lecab/Views/User/user_otp_verification.dart';
 import 'package:lecab/Views/User/user_starting_page.dart';
 import 'package:lecab/Views/splash_screen.dart';
 import 'package:lecab/model/user_model.dart';
+import 'package:lecab/utils/driver.dart';
 import 'package:lecab/widget/User/user_bottom_nav_bar.dart';
 import 'package:lecab/widget/authentication_dialogue_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -220,7 +221,9 @@ class UserDetailsProvider extends ChangeNotifier {
       surName: userSurNameController.text.trim(),
       phoneNumber: firebaseAuth.currentUser!.phoneNumber!,
       pickUpPlaceNameList: [], dropOffPlaceAddressList: [],
-      dropOffPlaceNameList: [], pickUpPlaceAddressList: [],
+      dropOffPlaceNameList: [], pickUpPlaceAddressList: [], rideDateList: [],
+      ridetimeList: [],
+
       // profilePicture: image.toString(),
     );
 
@@ -237,15 +240,16 @@ class UserDetailsProvider extends ChangeNotifier {
   }
 
 //---------------------------Store User Current Location---------------------
-
+  GeoPoint? userCurrentLocation;
   storeUserCurrentLocation() async {
     DocumentReference docRef = firebaseFirestore.collection('users').doc(_uid);
 
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     GeoPoint latLngPosition = GeoPoint(position.latitude, position.longitude);
+    userCurrentLocation = latLngPosition;
 
-    await docRef.update({'userCurrentLocation': latLngPosition});
+    await docRef.update({'userCurrentLocation': userCurrentLocation});
     print('User current location stored');
     notifyListeners();
   }
@@ -322,8 +326,9 @@ class UserDetailsProvider extends ChangeNotifier {
       'cabFare': null,
       'isBooked': false,
     });
-    resetCabFare();
-    resetDistance();
+    await resetCabFare();
+    await resetDistance();
+    await resetDriver();
     notifyListeners();
   }
 
@@ -339,6 +344,7 @@ class UserDetailsProvider extends ChangeNotifier {
         surName: snapshot['surName'],
         phoneNumber: snapshot['phoneNumber'],
         profilePicture: snapshot['profilePicture'],
+        selectedDriver: snapshot['selectedDriver'],
         dropOffPlaceAddressList:
             (snapshot['dropOffPlaceAddressList'] as List<dynamic>)
                 .cast<String>(),
@@ -349,6 +355,10 @@ class UserDetailsProvider extends ChangeNotifier {
                 .cast<String>(),
         pickUpPlaceNameList:
             (snapshot['pickUpPlaceNameList'] as List<dynamic>).cast<String>(),
+        rideDateList:
+            (snapshot['rideDateList'] as List<dynamic>).cast<String>(),
+        ridetimeList:
+            (snapshot['ridetimeList'] as List<dynamic>).cast<String>(),
       );
 
       _uid = userModel.uid;
@@ -595,26 +605,6 @@ class UserDetailsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // List<String> destinationsNameList = [];
-  // List<String> pickUpPlaceNameList = [];
-  // List<String> destinationsAddressList = [];
-  // List<String> pickUpPlaceAddressList = [];
-  // List<String> rideDateList = [];
-  // List<String> rideTimeList = [];
-
-  // Future addToHistoryList() async {
-  //   destinationsNameList.insert(0, dropOffPlace!);
-  //   destinationsAddressList.insert(0, dropOffAddress!);
-  //   pickUpPlaceNameList.insert(0, pickUpPlace!);
-  //   pickUpPlaceAddressList.insert(0, pickUpAddress!);
-  //   rideDateList.insert(0, date!);
-  //   rideTimeList.insert(0, time!);
-
-  //   log('history list added');
-
-  //   notifyListeners();
-  // }
-
   Future<void> addDataToLists() async {
     try {
       DocumentSnapshot userSnapshot =
@@ -628,6 +618,8 @@ class UserDetailsProvider extends ChangeNotifier {
       user.pickUpPlaceAddressList.insert(0, pickUpAddress!);
       user.dropOffPlaceNameList.insert(0, dropOffPlace!);
       user.dropOffPlaceAddressList.insert(0, dropOffAddress!);
+      user.rideDateList.insert(0, date!);
+      user.ridetimeList.insert(0, time!);
 
       Map<String, dynamic> updatedUserData = user.toMap();
 
@@ -639,6 +631,49 @@ class UserDetailsProvider extends ChangeNotifier {
     } catch (e) {
       log('Error : $e');
     }
+    notifyListeners();
+  }
+
+  Driver? driver;
+  // StreamController<GeoPoint> driverLocationStream =
+  //     StreamController<GeoPoint>();
+  Future fetchDriver() async {
+    log('Fetch..');
+
+    if (userModel.selectedDriver != null) {
+      log('Fetch Driver......................');
+      CollectionReference driverRef = firebaseFirestore.collection('drivers');
+
+      QuerySnapshot driverSnapshot = await driverRef
+          .where('driverid', isEqualTo: userModel.selectedDriver)
+          .get();
+
+      for (var doc in driverSnapshot.docs) {
+        String driverId = doc['driverid'];
+        String driverFirstName = doc['driverFirstName'];
+        String driverSurName = doc['driverSurName'];
+        GeoPoint driverLocation = doc['driverCurrentLocation'];
+        // driverLocationStream.add(driverLocation);
+
+        driver = Driver(
+            driverId: driverId,
+            driverFirstName: driverFirstName,
+            driverSurName: driverSurName,
+            driverLocation: driverLocation);
+      }
+      notifyListeners();
+    } else {
+      log('selected Driver is Null');
+    }
+  }
+
+  Future resetDriver() async {
+    driver = null;
+
+    DocumentReference docRef = firebaseFirestore.collection('users').doc(_uid);
+    await docRef.update({'selectedDriver': null});
+
+    log('Driver is null : ${driver == null}');
     notifyListeners();
   }
 }

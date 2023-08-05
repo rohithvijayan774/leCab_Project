@@ -47,8 +47,8 @@ class UserActivity extends StatelessWidget {
             : ListView.separated(
                 itemBuilder: (context, index) {
                   return UserActivityBar(
-                    bookedDate: 'value.',
-                    bookedTime: 'value.',
+                    bookedDate: value.userModel.rideDateList[index],
+                    bookedTime: value.userModel.ridetimeList[index],
                     dropOffLoc: value.userModel.dropOffPlaceNameList[index],
                   );
                 },

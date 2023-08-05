@@ -58,6 +58,9 @@ class UserSearch extends StatelessWidget {
                     Expanded(
                       child: Column(
                         children: [
+                          // TextButton(
+                          //     onPressed: () {},
+                          //     child: const Text('Use your current location')),
                           TextFormField(
                             focusNode: osmProvider.firstFocusNode,
                             controller: osmProvider.pickUpTextController,

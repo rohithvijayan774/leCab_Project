@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:lecab/provider/User/user_details_provider.dart';
+import 'package:provider/provider.dart';
 
 class DriverWaitingBottomBar extends StatelessWidget {
   const DriverWaitingBottomBar({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final userDetailsPro =
+        Provider.of<UserDetailsProvider>(context, listen: false);
     return Container(
       height: MediaQuery.of(context).size.height / 4,
       decoration: const BoxDecoration(
@@ -50,8 +54,10 @@ class DriverWaitingBottomBar extends StatelessWidget {
                   const Size(200, 50),
                 ),
               ),
-              onPressed: () {
-                Navigator.pop(context);
+              onPressed: () async {
+                await userDetailsPro.resetDriver().then((value) {
+                  Navigator.pop(context);
+                });
               },
               label: const Text(
                 "Cancel ride",

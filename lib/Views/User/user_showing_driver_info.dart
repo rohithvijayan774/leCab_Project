@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:lecab/provider/User/user_details_provider.dart';
 import 'package:lecab/provider/User/user_googlemap_provider.dart';
 import 'package:lecab/widget/User/Bottom%20Bar/user_driver_info_bottomapp.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +11,9 @@ class UserDriverInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final googleMapProvider = Provider.of<UserGoogleMapProvider>(context);
+    final userDetailsPro =
+        Provider.of<UserDetailsProvider>(context, listen: false);
+    // userDetailsPro.fetchDriver();
     return Scaffold(
       body: Center(
         child: Stack(
@@ -46,7 +50,7 @@ class UserDriverInfo extends StatelessWidget {
       ),
       bottomNavigationBar: UserDriverInfoBottomApp(
           driverPic: 'lib/assets/profile.png',
-          driverName: 'Rohith Vijayan',
+          driverName: userDetailsPro.driver!.driverFirstName,
           vehicleNumber: 'KL 11 AQ 9221'),
     );
   }
