@@ -44,8 +44,40 @@ class UserSearch extends StatelessWidget {
                   )
                 ],
               ),
-              const SizedBox(
-                height: 20,
+              TextButton(
+                onPressed: () {
+                  if (osmProvider.secondFocusNode.hasFocus) {
+                    osmProvider.dropOffTextController.text =
+                        userDetailsPro.userCurrentLocation.toString();
+                    osmProvider.dropOffCoordinates =
+                        userDetailsPro.userCurrentLocation;
+                    userDetailsPro.dropOffPlace =
+                        userDetailsPro.userCurrentLocation.toString();
+                    userDetailsPro.dropOffAddress =
+                        userDetailsPro.userCurrentLocation.toString();
+                  } else {
+                    osmProvider.pickUpTextController.text =
+                        userDetailsPro.userCurrentLocation.toString();
+                    osmProvider.pickUpCoordinates =
+                        userDetailsPro.userCurrentLocation;
+                    userDetailsPro.pickUpPlace =
+                        userDetailsPro.userCurrentLocation.toString();
+                    userDetailsPro.pickUpAddress =
+                        userDetailsPro.userCurrentLocation.toString();
+                  }
+                },
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Icon(Icons.my_location_rounded),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text('Use current location'),
+                    ],
+                  ),
+                ),
               ),
               SizedBox(
                 width: double.infinity,
@@ -67,7 +99,7 @@ class UserSearch extends StatelessWidget {
                             textCapitalization: TextCapitalization.words,
                             decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
-                                hintText: 'Your current location'),
+                                hintText: 'From?'),
                             onChanged: (value) async {
                               osmProvider.controller.isLoading.value = true;
                               var data = await addressSuggestion(
@@ -227,11 +259,9 @@ class UserSearch extends StatelessWidget {
                 );
                 // await userDetailsPro.calculateDis();
                 // userDetailsPro.formatDistance();
-                Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                      builder: (context) => const UserChooseVehicle(),
-                    ),
-                    (route) => false);
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const UserChooseVehicle(),
+                ));
               },
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

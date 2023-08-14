@@ -14,6 +14,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:lecab/Views/User/user_number_validation.dart';
 import 'package:lecab/Views/User/user_otp_verification.dart';
+import 'package:lecab/Views/User/user_showing_driver_info.dart';
 import 'package:lecab/Views/User/user_starting_page.dart';
 import 'package:lecab/Views/splash_screen.dart';
 import 'package:lecab/model/user_model.dart';
@@ -21,6 +22,7 @@ import 'package:lecab/utils/driver.dart';
 import 'package:lecab/widget/User/user_bottom_nav_bar.dart';
 import 'package:lecab/widget/authentication_dialogue_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class UserDetailsProvider extends ChangeNotifier {
   //Number Details
@@ -240,17 +242,20 @@ class UserDetailsProvider extends ChangeNotifier {
   }
 
 //---------------------------Store User Current Location---------------------
-  GeoPoint? userCurrentLocation;
+  LatLng? userCurrentLocation;
   storeUserCurrentLocation() async {
     DocumentReference docRef = firebaseFirestore.collection('users').doc(_uid);
 
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     GeoPoint latLngPosition = GeoPoint(position.latitude, position.longitude);
-    userCurrentLocation = latLngPosition;
+    userCurrentLocation =
+        LatLng(latLngPosition.latitude, latLngPosition.longitude);
 
-    await docRef.update({'userCurrentLocation': userCurrentLocation});
+    await docRef.update({'userCurrentLocation': latLngPosition});
+
     print('User current location stored');
+    log(userCurrentLocation.toString());
     notifyListeners();
   }
 
@@ -637,14 +642,15 @@ class UserDetailsProvider extends ChangeNotifier {
   Driver? driver;
   // StreamController<GeoPoint> driverLocationStream =
   //     StreamController<GeoPoint>();
-  Future fetchDriver() async {
+  Future fetchDriver(context, QuerySnapshot driverSnapshot) async {
     log('Fetch..');
 
     if (userModel.selectedDriver != null) {
       log('Fetch Driver......................');
       CollectionReference driverRef = firebaseFirestore.collection('drivers');
 
-      QuerySnapshot driverSnapshot = await driverRef
+      driverSnapshot = await driverRef
+          .where('isOrderAccepted', isEqualTo: true)
           .where('driverid', isEqualTo: userModel.selectedDriver)
           .get();
 
@@ -653,13 +659,31 @@ class UserDetailsProvider extends ChangeNotifier {
         String driverFirstName = doc['driverFirstName'];
         String driverSurName = doc['driverSurName'];
         GeoPoint driverLocation = doc['driverCurrentLocation'];
+        bool isReached = doc['isReached'];
+        bool isOrderAccepted = doc['isOrderAccepted'];
         // driverLocationStream.add(driverLocation);
 
         driver = Driver(
-            driverId: driverId,
-            driverFirstName: driverFirstName,
-            driverSurName: driverSurName,
-            driverLocation: driverLocation);
+          driverId: driverId,
+          driverFirstName: driverFirstName,
+          driverSurName: driverSurName,
+          driverLocation: driverLocation,
+          isReached: isReached,
+          isOrderAccepted: isOrderAccepted,
+        );
+
+        if (driver != null) {
+          log('Entered Isreached');
+          if (driver!.isReached == true) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const UserDriverInfo(),
+              ),
+            );
+          }
+          notifyListeners();
+        }
       }
       notifyListeners();
     } else {
@@ -676,4 +700,31 @@ class UserDetailsProvider extends ChangeNotifier {
     log('Driver is null : ${driver == null}');
     notifyListeners();
   }
+
+//--------------------------------RazorPay-------------------------------
+
+  var razorPay = Razorpay();
+
+  razorPayPayment() {
+    razorPay.on(Razorpay.EVENT_PAYMENT_SUCCESS, handlePaymentSuccess());
+    razorPay.on(Razorpay.EVENT_PAYMENT_ERROR, handlePaymentError());
+    razorPay.on(Razorpay.EVENT_EXTERNAL_WALLET, handleExternalWallet());
+  }
+
+  handlePaymentSuccess() {}
+
+  handlePaymentError() {}
+
+  handleExternalWallet() {}
+
+  Map<String, dynamic> options = {
+    'key': 'rzp_test_ogN2wJ156C8qr7',
+    'amount': 100,
+    'name': 'leCab',
+    'description': 'Pay for your ride',
+    'prefill': {
+      'contact': '9778386283',
+      'email': 'rohithvijayan774@gmail.com',
+    }
+  };
 }

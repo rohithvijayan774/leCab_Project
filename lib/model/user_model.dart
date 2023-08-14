@@ -1,5 +1,3 @@
-// import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel {

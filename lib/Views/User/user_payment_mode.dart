@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:lecab/Views/User/user_payment_completed.dart';
+import 'package:lecab/provider/User/user_details_provider.dart';
 import 'package:lecab/widget/User/payment_mode_bar.dart';
+import 'package:provider/provider.dart';
 
 class UserPaymentMode extends StatelessWidget {
   const UserPaymentMode({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final userDetailsPro =
+        Provider.of<UserDetailsProvider>(context, listen: false);
+    // userDetailsPro.razorPayPayment();
     return Scaffold(
       appBar: AppBar(
         bottom: AppBar(
@@ -39,6 +45,13 @@ class UserPaymentMode extends StatelessWidget {
                     height: 30,
                   ),
                   PaymentModeBar(
+                      onClick: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const UserPaymentCompleted(),
+                          ),
+                        );
+                      },
                       payIcon: 'lib/assets/cash_by_hand.png',
                       payLabel: 'Paid by Cash'),
                   const Divider(
@@ -46,8 +59,12 @@ class UserPaymentMode extends StatelessWidget {
                     endIndent: 40,
                   ),
                   PaymentModeBar(
-                      payIcon: "lib/assets/online_payment.png",
-                      payLabel: 'Pay Online')
+                    payIcon: "lib/assets/online_payment.png",
+                    payLabel: 'Pay Online',
+                    onClick: () {
+                      userDetailsPro.razorPay.open(userDetailsPro.options);
+                    },
+                  ),
                 ],
               ),
             )

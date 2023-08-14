@@ -13,7 +13,6 @@ class UserDriverInfo extends StatelessWidget {
     final googleMapProvider = Provider.of<UserGoogleMapProvider>(context);
     final userDetailsPro =
         Provider.of<UserDetailsProvider>(context, listen: false);
-    // userDetailsPro.fetchDriver();
     return Scaffold(
       body: Center(
         child: Stack(

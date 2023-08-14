@@ -11,14 +11,15 @@ class UserChooseVehicle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final googleMapProvider = Provider.of<UserGoogleMapProvider>(context);
-    final userDetailsPro = Provider.of<UserDetailsProvider>(context);
+    final userDetailsPro =
+        Provider.of<UserDetailsProvider>(context, listen: false);
     return Scaffold(
       body: Center(
         child: Stack(
           alignment: Alignment.center,
           children: [
             GoogleMap(
-              padding: EdgeInsets.only(top: 300),
+              padding:const EdgeInsets.only(top: 300),
               initialCameraPosition: googleMapProvider.yourLocation,
               mapType: MapType.normal,
               // myLocationButtonEnabled: true,
@@ -55,7 +56,10 @@ class UserChooseVehicle extends StatelessWidget {
                   decoration: const BoxDecoration(
                       shape: BoxShape.circle, color: Colors.black),
                   child: IconButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      await userDetailsPro.resetCabFare();
+                      await userDetailsPro.resetDistance();
+                      await userDetailsPro.resetDriver();
                       Navigator.pop(context);
                     },
                     icon: const Icon(

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:lecab/Views/User/user_payment_mode.dart';
 import 'package:lecab/provider/User/bottom_nav_bar_provider.dart';
 import 'package:lecab/provider/User/user_details_provider.dart';
 import 'package:lecab/widget/User/user_image_viewer.dart';
@@ -200,12 +201,16 @@ class UserAccount extends StatelessWidget {
           ),
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () async {
-      //     await userDetailsPro.calculateDis();
-      //     userDetailsPro.formatDistance();
-      //   },
-      // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const UserPaymentMode(),
+            ),
+          );
+        },
+      ),
     );
   }
 }

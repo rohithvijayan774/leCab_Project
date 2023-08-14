@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:lecab/Views/User/user_payment_completed.dart';
 
 // ignore: must_be_immutable
 class PaymentModeBar extends StatelessWidget {
   String payIcon;
   String payLabel;
+  Function onClick;
   PaymentModeBar({
     required this.payIcon,
     required this.payLabel,
+    required this.onClick,
     super.key,
   });
 
@@ -24,11 +25,7 @@ class PaymentModeBar extends StatelessWidget {
           backgroundColor: const MaterialStatePropertyAll(Colors.transparent),
         ),
         onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const UserPaymentCompleted(),
-            ),
-          );
+          onClick();
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
